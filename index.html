@@ -1922,11 +1922,23 @@
         <li><strong>A tracker data-quality fix surfaced 349 previously-hidden real posts.</strong>
         406 rows were logged under two placeholder batch dates instead of real ones; checking each
         post's actual Instagram/TikTok timestamp via Apify and correcting the sheet revealed a
-        staggered "US_Picky_Mar" gifted rollout (mostly Apr 25&ndash;May 25, peaking at 53 posts on
-        5/10) that the report previously undercounted as 34 dated posts total. Despite the much
-        larger real volume, it shows no standout revenue signal beyond the Best Deal promo it
-        partly overlaps &mdash; reinforcing insight #4: raw post volume doesn't move revenue on its
-        own.</li>
+        staggered "Picky" rollout &mdash; a Gifted March cohort (US_Picky_Mar, 293 posts) and a Paid
+        April cohort (US_Picky_Apr, 109 posts, including the 53-post peak on 5/10) &mdash; mostly
+        Apr 25&ndash;May 25, that the report previously undercounted as 34 dated posts total.
+        Despite the much larger real volume, it shows no standout revenue signal beyond the Best
+        Deal promo it partly overlaps &mdash; reinforcing insight #4: raw post volume doesn't move
+        revenue on its own.</li>
+        <li><strong>Excluding the Picky program entirely still shows no post&harr;revenue
+        correlation.</strong> Dropping all 402 Picky posts (Gifted and Paid alike) leaves 65 posts
+        across 35 dates &mdash; the genuine one-off influencer content. Same-day post count vs.
+        revenue on non-promo days: r&nbsp;=&nbsp;&minus;0.08 (r&nbsp;=&nbsp;&minus;0.02 across the
+        full window, r&nbsp;=&nbsp;&minus;0.01 using next-day revenue instead of same-day).
+        Non-promo days with a post average $2,529 in revenue vs. $2,586 on days without one &mdash;
+        essentially no difference. Restricting further to only Paid-collab posts (34 dates, still
+        includes US_Picky_Apr) gives the same result (r&nbsp;=&nbsp;&minus;0.08 same-day). At this
+        sample size these small negative r values read as noise, not a real effect &mdash; the
+        honest conclusion is that individual influencer posts, paid or gifted, don't produce a
+        detectable daily revenue signal independent of promotions.</li>
       </ul>
     </div>
   </main>
