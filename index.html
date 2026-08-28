@@ -1,0 +1,1956 @@
+<title>Page Views &amp; Content Report</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  :root {
+    --bg: #faf6f4;
+    --surface: #ffffff;
+    --ink: #251b1e;
+    --ink-muted: #6f5d61;
+    --accent: #b8497a;
+    --accent-ink: #7a2a51;
+    --accent-soft: #f5dde7;
+    --accent-soft-border: #e6b9cd;
+    --positive: #2c7a56;
+    --positive-soft: #e2f0e8;
+    --negative: #b1382f;
+    --negative-soft: #f7e5e3;
+    --border: #e6dad6;
+    --header-bg: #241a1d;
+    --header-ink: #f7ecef;
+    --series-views: #b8497a;
+    --series-units: #2a78d6;
+    --chart-grid: #e1e0d9;
+    --chart-baseline: #c3b7bb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1a1416;
+      --surface: #221a1c;
+      --ink: #f2e8e6;
+      --ink-muted: #b8a3a6;
+      --accent: #e38aad;
+      --accent-ink: #f6c9dc;
+      --accent-soft: #3a2430;
+      --accent-soft-border: #5c3648;
+      --positive: #6bc79a;
+      --positive-soft: #1f3129;
+      --negative: #e08a80;
+      --negative-soft: #3a2320;
+      --border: #3d2f32;
+      --header-bg: #100c0d;
+      --header-ink: #f2e8e6;
+      --series-views: #d9678f;
+      --series-units: #3987e5;
+      --chart-grid: #2c2c2a;
+      --chart-baseline: #4a3c40;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #1a1416;
+    --surface: #221a1c;
+    --ink: #f2e8e6;
+    --ink-muted: #b8a3a6;
+    --accent: #e38aad;
+    --accent-ink: #f6c9dc;
+    --accent-soft: #3a2430;
+    --accent-soft-border: #5c3648;
+    --positive: #6bc79a;
+    --positive-soft: #1f3129;
+    --negative: #e08a80;
+    --negative-soft: #3a2320;
+    --border: #3d2f32;
+    --header-bg: #100c0d;
+    --header-ink: #f2e8e6;
+    --series-views: #d9678f;
+    --series-units: #3987e5;
+    --chart-grid: #2c2c2a;
+    --chart-baseline: #4a3c40;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 28px 20px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 940px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(20, 10, 12, 0.06);
+  }
+
+  header.banner {
+    background: var(--header-bg);
+    color: var(--header-ink);
+    padding: 26px 32px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .banner-title h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    letter-spacing: 0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+
+  .banner-title p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #d9c3cc;
+    letter-spacing: 0.02em;
+  }
+
+  .banner-meta {
+    text-align: right;
+    font-size: 0.72rem;
+    color: #cbb2bc;
+    line-height: 1.5;
+  }
+
+  .banner-meta strong {
+    color: var(--header-ink);
+    font-weight: 600;
+  }
+
+  main {
+    padding: 20px 32px 8px;
+  }
+
+  .summary {
+    font-size: 0.88rem;
+    line-height: 1.52;
+    color: var(--ink);
+    max-width: 78ch;
+    margin: 0 0 14px;
+  }
+
+  .summary strong { color: var(--accent-ink); font-weight: 600; }
+
+  .stat-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .stat-chip {
+    flex: 1;
+    min-width: 150px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+
+  .stat-chip .label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    font-weight: 600;
+  }
+
+  .stat-chip .value {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--accent-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-chip .sub {
+    font-size: 0.62rem;
+    color: var(--ink-muted);
+  }
+
+  .chart-block {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    padding: 12px 14px 6px;
+    margin-bottom: 14px;
+  }
+
+  .chart-block h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    margin: 0 0 2px;
+    color: var(--accent-ink);
+  }
+
+  .chart-block .chart-sub {
+    font-size: 0.66rem;
+    color: var(--ink-muted);
+    margin: 0 0 6px;
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 0.68rem;
+    color: var(--ink-muted);
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+  }
+
+  .chart-legend .swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+
+  .chart-legend .line {
+    width: 14px;
+    height: 2px;
+    display: inline-block;
+    border-radius: 1px;
+  }
+
+  .chart-legend .line.views { background: var(--series-views); }
+  .chart-legend .line.units { background: var(--series-units); }
+
+  .chart-svg-wrap { overflow-x: auto; }
+  .chart-svg-wrap svg { display: block; width: 100%; height: auto; min-width: 640px; }
+
+  .axis-label, .tick-label { fill: var(--ink-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .grid-line { stroke: var(--chart-grid); stroke-width: 1; }
+  .baseline-line { stroke: var(--chart-baseline); stroke-width: 1; stroke-dasharray: 3 3; }
+  .promo-band { fill: var(--accent-soft); }
+  .series-line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .series-line.views { stroke: var(--series-views); }
+  .series-line.units { stroke: var(--series-units); }
+  .series-dot { stroke: var(--surface); stroke-width: 1.5; }
+  .series-dot.views { fill: var(--series-views); }
+  .series-dot.units { fill: var(--series-units); }
+  .units-area { fill: var(--series-units); opacity: 0.14; }
+  .units-line-daily { fill: none; stroke: var(--series-units); stroke-width: 1.4; }
+  .upload-bubble { fill: var(--accent); opacity: 0.72; stroke: var(--surface); stroke-width: 0.8; cursor: default; }
+  .upload-tick { stroke: var(--ink-muted); stroke-width: 1.2; cursor: default; }
+  .upload-cluster { fill: var(--ink-muted); opacity: 0.4; stroke: var(--surface); stroke-width: 0.6; cursor: default; }
+  .month-label { fill: var(--ink-muted); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  @media print {
+    .chart-svg-wrap svg { min-width: 0; }
+  }
+
+  .legend {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .legend .swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .dot.promo { background: var(--accent); }
+  .dot.up { background: var(--positive); }
+  .dot.down { background: var(--negative); }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.71rem;
+  }
+
+  thead th {
+    text-align: left;
+    background: var(--bg);
+    color: var(--ink-muted);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--ink);
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr.promo-row { background: var(--accent-soft); }
+
+  td.num, th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    white-space: nowrap;
+  }
+
+  td.date { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 500; }
+
+  .content-cell { color: var(--ink); }
+  .content-cell .empty { color: var(--ink-muted); }
+  .content-cell a { color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid var(--accent-soft-border); }
+  .content-cell a:hover { border-bottom-color: var(--accent-ink); }
+
+  .pct { font-weight: 600; font-size: 0.66rem; display: block; }
+  .pct.up { color: var(--positive); }
+  .pct.down { color: var(--negative); }
+
+  .promo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent-soft-border);
+    padding: 2px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .no-promo { color: var(--ink-muted); font-size: 0.66rem; }
+
+  .insights {
+    margin: 16px 0 18px;
+    padding: 14px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .insights h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--accent-ink);
+  }
+
+  .insights ul {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 6px;
+    font-size: 0.75rem;
+    line-height: 1.46;
+  }
+
+  .insights li strong { color: var(--ink); }
+
+  footer.note {
+    padding: 0 32px 20px;
+    font-size: 0.62rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  @media print {
+    body { padding: 0; background: var(--surface); }
+    .page { max-width: 100%; border: none; border-radius: 0; box-shadow: none; }
+    @page { size: letter landscape; margin: 10mm; }
+    table { font-size: 0.64rem; }
+    thead th, tbody td { padding: 3px 6px; }
+    .table-wrap { max-height: none !important; overflow-y: visible !important; }
+  }
+</style>
+
+<div class="page">
+  <header class="banner">
+    <div class="banner-title">
+      <h1>Page Views, Revenue &amp; Content Correlation</h1>
+      <p>JUMISO &middot; Niacinamide 20 Serum (ASIN B0FM23ZR4H) &middot; US &middot; daily, 2026 YTD</p>
+    </div>
+    <div class="banner-meta">
+      <div><strong>Window:</strong> Mar 22 &ndash; Aug 26, 2026 (158 days)</div>
+      <div><strong>Prepared:</strong> Aug 28, 2026</div>
+    </div>
+  </header>
+
+  <main>
+    <p class="summary">
+      Real Seller Central data at daily resolution (all 158 days) shows page views and revenue
+      moving together very closely overall (<strong>r&nbsp;=&nbsp;0.93</strong>) &mdash; but that
+      number is almost entirely a promo-day effect. Strip out the four promo windows and the
+      day-to-day relationship all but disappears (<strong>r&nbsp;=&nbsp;0.18</strong> on the 118
+      ordinary days): normal daily swings in page views don&rsquo;t reliably predict that day's
+      revenue, they're just noisy together. Content matched to this specific product tells a
+      similarly mixed story at daily grain: the two highest-reach videos of the period (@rw2100,
+      134k views; @lifeofshauni, 78k views) landed on ordinary days with only a modest revenue
+      bump, while @_leaveitblankk's 8/14 post (42k views, <strong>10.63% ER</strong> &mdash; the
+      best engagement of any tracked post) landed on a promo day, so its lift can&rsquo;t be
+      cleanly separated from the discount. Elio's 8/27 post (flagged live in Slack) can&rsquo;t be
+      verified yet &mdash; Seller Central data lags 1&ndash;2 days and 8/27&ndash;28 aren&rsquo;t
+      available as of this report (checked again same day, still blank).
+    </p>
+
+    <div class="stat-row">
+      <div class="stat-chip">
+        <div class="label">Views &harr; Revenue correlation</div>
+        <div class="value">r = 0.93</div>
+        <div class="sub">r = 0.18 on the 118 non&#8209;promo days</div>
+      </div>
+      <div class="stat-chip">
+        <div class="label">Peak day</div>
+        <div class="value">Jun 23 &middot; Prime Day</div>
+        <div class="sub">$27,487 revenue &middot; 2,171 units (real)</div>
+      </div>
+      <div class="stat-chip">
+        <div class="label">Window totals</div>
+        <div class="value">$589,053</div>
+        <div class="sub">35,741 units &middot; 368,177 page views</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <h2>Daily page views vs. revenue, indexed to day 1</h2>
+      <p class="chart-sub">Mar 22, 2026 = 100 for both series (real Seller Central data, all 158 days) &middot; shaded bands = active promotions &middot; dots at 7&#8209;day intervals for readability, hover any dot for the exact day</p>
+      <div class="chart-legend">
+        <span class="swatch"><span class="line views"></span> Page views</span>
+        <span class="swatch"><span class="line units"></span> Revenue</span>
+      </div>
+      <div class="chart-svg-wrap">
+        <svg viewBox="0 0 860 244" role="img" aria-label="Line chart of daily page views and revenue, indexed to day 1, Mar 22 to Aug 26 2026, real Seller Central data">
+          <line class="grid-line" x1="44" y1="230" x2="846" y2="230"/>
+          <line class="grid-line" x1="44" y1="201.1" x2="846" y2="201.1"/>
+          <line class="grid-line" x1="44" y1="172.2" x2="846" y2="172.2"/>
+          <line class="grid-line" x1="44" y1="114.4" x2="846" y2="114.4"/>
+          <line class="grid-line" x1="44" y1="56.5" x2="846" y2="56.5"/>
+          <line class="baseline-line" x1="44" y1="201.1" x2="846" y2="201.1"/>
+          <text class="axis-label" x="8" y="233" font-size="8">0</text>
+          <text class="axis-label" x="4" y="204.1" font-size="8">100</text>
+          <text class="axis-label" x="4" y="175.2" font-size="8">200</text>
+          <text class="axis-label" x="4" y="117.4" font-size="8">400</text>
+          <text class="axis-label" x="4" y="59.5" font-size="8">600</text>
+
+          <rect class="promo-band" x="59.3" y="10" width="35.8" height="220"/>
+          <rect class="promo-band" x="248.3" y="10" width="71.5" height="220"/>
+          <rect class="promo-band" x="519.1" y="10" width="20.4" height="220"/>
+          <rect class="promo-band" x="718.3" y="10" width="76.6" height="220"/>
+
+          <polyline class="series-line units" points="44.0,201.1 49.1,208.1 54.2,206.7 59.3,170.0 64.4,184.9 69.5,184.2 74.6,185.5 79.8,185.7 84.9,187.5 90.0,167.5 95.1,207.8 100.2,214.1 105.3,208.8 110.4,207.4 115.5,207.5 120.6,211.0 125.7,208.8 130.8,212.7 135.9,207.9 141.1,208.5 146.2,213.0 151.3,213.2 156.4,214.3 161.5,215.6 166.6,217.6 171.7,220.9 176.8,214.6 181.9,209.6 187.0,210.9 192.1,213.3 197.2,210.8 202.4,209.3 207.5,209.6 212.6,210.4 217.7,213.2 222.8,204.4 227.9,205.5 233.0,212.3 238.1,206.8 243.2,209.3 248.3,189.7 253.4,200.4 258.5,195.8 263.7,200.3 268.8,199.2 273.9,198.8 279.0,200.1 284.1,197.7 289.2,202.3 294.3,193.1 299.4,198.0 304.5,198.3 309.6,196.0 314.7,186.5 319.8,215.5 325.0,211.5 330.1,207.9 335.2,210.1 340.3,214.0 345.4,208.8 350.5,212.7 355.6,214.3 360.7,213.2 365.8,207.4 370.9,207.2 376.0,213.2 381.1,211.9 386.3,211.6 391.4,208.3 396.5,206.4 401.6,206.9 406.7,209.7 411.8,210.7 416.9,211.1 422.0,206.5 427.1,208.8 432.2,207.7 437.3,210.8 442.4,210.0 447.6,212.9 452.7,213.7 457.8,212.1 462.9,212.4 468.0,211.5 473.1,210.7 478.2,205.5 483.3,208.6 488.4,208.0 493.5,210.8 498.6,209.6 503.7,213.2 508.9,209.7 514.0,209.7 519.1,24.3 524.2,96.6 529.3,115.9 534.4,58.8 539.5,209.1 544.6,213.0 549.7,215.6 554.8,215.2 559.9,217.3 565.0,214.2 570.2,214.9 575.3,217.4 580.4,208.8 585.5,211.0 590.6,214.1 595.7,210.8 600.8,211.0 605.9,208.3 611.0,211.6 616.1,209.7 621.2,207.2 626.3,206.6 631.5,209.0 636.6,211.0 641.7,212.6 646.8,212.1 651.9,210.8 657.0,208.5 662.1,211.9 667.2,214.1 672.3,209.9 677.4,211.6 682.5,214.5 687.6,214.1 692.8,207.7 697.9,215.0 703.0,215.0 708.1,212.3 713.2,213.2 718.3,173.3 723.4,175.6 728.5,191.2 733.6,189.5 738.7,189.7 743.8,191.3 748.9,190.1 754.1,192.2 759.2,169.0 764.3,170.9 769.4,182.8 774.5,179.7 779.6,180.8 784.7,166.7 789.8,203.8 794.9,207.0 800.0,206.0 805.1,206.4 810.2,205.5 815.4,208.7 820.5,208.1 825.6,209.7 830.7,210.9 835.8,211.4 840.9,213.0 846.0,212.1"/>
+
+          <polyline class="series-line views" points="44.0,201.1 49.1,208.6 54.2,210.7 59.3,182.6 64.4,191.5 69.5,189.7 74.6,191.2 79.8,189.7 84.9,181.4 90.0,179.8 95.1,215.0 100.2,216.7 105.3,216.9 110.4,215.9 115.5,215.9 120.6,216.5 125.7,215.4 130.8,215.7 135.9,215.3 141.1,217.7 146.2,216.4 151.3,215.5 156.4,216.8 161.5,216.5 166.6,218.1 171.7,210.1 176.8,213.3 181.9,213.8 187.0,211.1 192.1,214.7 197.2,214.8 202.4,211.8 207.5,212.2 212.6,212.7 217.7,209.8 222.8,208.8 227.9,207.0 233.0,208.9 238.1,211.2 243.2,215.5 248.3,198.7 253.4,200.8 258.5,198.5 263.7,199.8 268.8,198.9 273.9,198.9 279.0,200.3 284.1,199.9 289.2,197.7 294.3,197.0 299.4,185.9 304.5,184.1 309.6,185.3 314.7,169.9 319.8,211.1 325.0,212.3 330.1,212.6 335.2,214.8 340.3,214.7 345.4,205.6 350.5,210.9 355.6,210.5 360.7,210.1 365.8,210.0 370.9,209.3 376.0,214.4 381.1,210.2 386.3,209.2 391.4,200.5 396.5,206.8 401.6,212.6 406.7,217.5 411.8,217.0 416.9,216.5 422.0,216.6 427.1,218.3 432.2,217.4 437.3,215.5 442.4,215.4 447.6,216.0 452.7,216.1 457.8,218.0 462.9,217.5 468.0,217.9 473.1,216.3 478.2,216.4 483.3,216.1 488.4,216.6 493.5,215.9 498.6,213.5 503.7,205.7 508.9,199.4 514.0,204.8 519.1,43.7 524.2,124.5 529.3,138.0 534.4,129.3 539.5,208.4 544.6,209.5 549.7,211.6 554.8,213.2 559.9,216.1 565.0,216.7 570.2,216.0 575.3,204.1 580.4,196.7 585.5,182.3 590.6,187.5 595.7,203.2 600.8,204.1 605.9,204.6 611.0,203.4 616.1,203.0 621.2,203.7 626.3,203.7 631.5,206.9 636.6,209.4 641.7,209.9 646.8,209.3 651.9,208.5 657.0,208.3 662.1,206.8 667.2,206.1 672.3,205.4 677.4,207.0 682.5,207.8 687.6,207.0 692.8,215.5 697.9,214.7 703.0,216.5 708.1,217.1 713.2,217.6 718.3,173.5 723.4,175.3 728.5,186.2 733.6,190.7 738.7,187.1 743.8,186.3 748.9,184.9 754.1,185.9 759.2,172.7 764.3,172.2 769.4,181.3 774.5,170.2 779.6,177.3 784.7,173.9 789.8,199.3 794.9,203.2 800.0,203.7 805.1,206.7 810.2,206.0 815.4,205.5 820.5,205.8 825.6,205.5 830.7,209.8 835.8,212.2 840.9,214.6 846.0,214.5"/>
+
+          <g class="series-dot views">
+            <circle class="series-dot views" cx="44.0" cy="201.1" r="2.2"><title>2026-03-22: 2,489 page views</title></circle>
+            <circle class="series-dot views" cx="79.8" cy="189.7" r="2.2"><title>2026-03-29: 3,467 page views</title></circle>
+            <circle class="series-dot views" cx="115.5" cy="215.9" r="2.2"><title>2026-04-05: 1,215 page views</title></circle>
+            <circle class="series-dot views" cx="151.3" cy="215.5" r="2.2"><title>2026-04-12: 1,246 page views</title></circle>
+            <circle class="series-dot views" cx="187.0" cy="211.1" r="2.2"><title>2026-04-19: 1,624 page views</title></circle>
+            <circle class="series-dot views" cx="222.8" cy="208.8" r="2.2"><title>2026-04-26: 1,826 page views</title></circle>
+            <circle class="series-dot views" cx="258.5" cy="198.5" r="2.2"><title>2026-05-03: 2,711 page views</title></circle>
+            <circle class="series-dot views" cx="294.3" cy="197.0" r="2.2"><title>2026-05-10: 2,841 page views</title></circle>
+            <circle class="series-dot views" cx="330.1" cy="212.6" r="2.2"><title>2026-05-17: 1,498 page views</title></circle>
+            <circle class="series-dot views" cx="365.8" cy="210.0" r="2.2"><title>2026-05-24: 1,718 page views</title></circle>
+            <circle class="series-dot views" cx="401.6" cy="212.6" r="2.2"><title>2026-05-31: 1,502 page views</title></circle>
+            <circle class="series-dot views" cx="437.3" cy="215.5" r="2.2"><title>2026-06-07: 1,248 page views</title></circle>
+            <circle class="series-dot views" cx="473.1" cy="216.3" r="2.2"><title>2026-06-14: 1,177 page views</title></circle>
+            <circle class="series-dot views" cx="508.9" cy="199.4" r="2.2"><title>2026-06-21: 2,638 page views</title></circle>
+            <circle class="series-dot views" cx="544.6" cy="209.5" r="2.2"><title>2026-06-28: 1,764 page views</title></circle>
+            <circle class="series-dot views" cx="580.4" cy="196.7" r="2.2"><title>2026-07-05: 2,864 page views</title></circle>
+            <circle class="series-dot views" cx="616.1" cy="203.0" r="2.2"><title>2026-07-12: 2,322 page views</title></circle>
+            <circle class="series-dot views" cx="651.9" cy="208.5" r="2.2"><title>2026-07-19: 1,853 page views</title></circle>
+            <circle class="series-dot views" cx="687.6" cy="207.0" r="2.2"><title>2026-07-26: 1,984 page views</title></circle>
+            <circle class="series-dot views" cx="723.4" cy="175.3" r="2.2"><title>2026-08-02: 4,706 page views</title></circle>
+            <circle class="series-dot views" cx="759.2" cy="172.7" r="2.2"><title>2026-08-09: 4,936 page views</title></circle>
+            <circle class="series-dot views" cx="794.9" cy="203.2" r="2.2"><title>2026-08-16: 2,305 page views</title></circle>
+            <circle class="series-dot views" cx="830.7" cy="209.8" r="2.2"><title>2026-08-23: 1,742 page views</title></circle>
+            <circle class="series-dot views" cx="846.0" cy="214.5" r="2.2"><title>2026-08-26: 1,334 page views</title></circle>
+          </g>
+          <g class="series-dot units">
+            <circle class="series-dot units" cx="44.0" cy="201.1" r="2.2"><title>2026-03-22: $3,863 revenue</title></circle>
+            <circle class="series-dot units" cx="79.8" cy="185.7" r="2.2"><title>2026-03-29: $5,917 revenue</title></circle>
+            <circle class="series-dot units" cx="115.5" cy="207.5" r="2.2"><title>2026-04-05: $3,003 revenue</title></circle>
+            <circle class="series-dot units" cx="151.3" cy="213.2" r="2.2"><title>2026-04-12: $2,244 revenue</title></circle>
+            <circle class="series-dot units" cx="187.0" cy="210.9" r="2.2"><title>2026-04-19: $2,556 revenue</title></circle>
+            <circle class="series-dot units" cx="222.8" cy="204.4" r="2.2"><title>2026-04-26: $3,422 revenue</title></circle>
+            <circle class="series-dot units" cx="258.5" cy="195.8" r="2.2"><title>2026-05-03: $4,572 revenue</title></circle>
+            <circle class="series-dot units" cx="294.3" cy="193.1" r="2.2"><title>2026-05-10: $4,924 revenue</title></circle>
+            <circle class="series-dot units" cx="330.1" cy="207.9" r="2.2"><title>2026-05-17: $2,955 revenue</title></circle>
+            <circle class="series-dot units" cx="365.8" cy="207.4" r="2.2"><title>2026-05-24: $3,021 revenue</title></circle>
+            <circle class="series-dot units" cx="401.6" cy="206.9" r="2.2"><title>2026-05-31: $3,086 revenue</title></circle>
+            <circle class="series-dot units" cx="437.3" cy="210.8" r="2.2"><title>2026-06-07: $2,561 revenue</title></circle>
+            <circle class="series-dot units" cx="473.1" cy="210.7" r="2.2"><title>2026-06-14: $2,583 revenue</title></circle>
+            <circle class="series-dot units" cx="508.9" cy="209.7" r="2.2"><title>2026-06-21: $2,706 revenue</title></circle>
+            <circle class="series-dot units" cx="544.6" cy="213.0" r="2.2"><title>2026-06-28: $2,266 revenue</title></circle>
+            <circle class="series-dot units" cx="580.4" cy="208.8" r="2.2"><title>2026-07-05: $2,831 revenue</title></circle>
+            <circle class="series-dot units" cx="616.1" cy="209.7" r="2.2"><title>2026-07-12: $2,707 revenue</title></circle>
+            <circle class="series-dot units" cx="651.9" cy="210.8" r="2.2"><title>2026-07-19: $2,562 revenue</title></circle>
+            <circle class="series-dot units" cx="687.6" cy="214.1" r="2.2"><title>2026-07-26: $2,119 revenue</title></circle>
+            <circle class="series-dot units" cx="723.4" cy="175.6" r="2.2"><title>2026-08-02: $7,270 revenue</title></circle>
+            <circle class="series-dot units" cx="759.2" cy="169.0" r="2.2"><title>2026-08-09: $8,152 revenue</title></circle>
+            <circle class="series-dot units" cx="794.9" cy="207.0" r="2.2"><title>2026-08-16: $3,067 revenue</title></circle>
+            <circle class="series-dot units" cx="830.7" cy="210.9" r="2.2"><title>2026-08-23: $2,546 revenue</title></circle>
+            <circle class="series-dot units" cx="846.0" cy="212.1" r="2.2"><title>2026-08-26: $2,398 revenue</title></circle>
+          </g>
+
+          <g class="tick-label" font-size="7.5">
+            <text x="44" y="243" text-anchor="middle">3/22</text>
+            <text x="151.3" y="243" text-anchor="middle">4/12</text>
+            <text x="258.5" y="243" text-anchor="middle">5/3</text>
+            <text x="365.8" y="243" text-anchor="middle">5/24</text>
+            <text x="473.1" y="243" text-anchor="middle">6/14</text>
+            <text x="519.1" y="243" text-anchor="middle" font-weight="700">6/23</text>
+            <text x="631.5" y="243" text-anchor="middle">7/15</text>
+            <text x="738.7" y="243" text-anchor="middle">8/5</text>
+            <text x="846.0" y="243" text-anchor="middle">8/26</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <h2>Daily revenue vs. confirmed Niacinamide 20 USA influencer uploads</h2>
+      <p class="chart-sub">All 158 days (Mar 22&ndash;Aug 26), real Seller Central revenue &middot; accent bubble = KILL-GO-tracked post, sized by eventual total views &middot; gray dot = untracked gifted/paid post(s), sized by count that day (upload dates verified against Instagram/TikTok via Apify) &middot; hover any marker for detail</p>
+      <div class="chart-legend">
+        <span class="swatch"><span class="line units" style="background:var(--accent);width:8px;height:8px;border-radius:50%;"></span> Tracked post, sized by views</span>
+        <span class="swatch"><span class="line units" style="background:var(--ink-muted);opacity:0.4;width:8px;height:8px;border-radius:50%;"></span> Untracked post(s), sized by count</span>
+        <span class="swatch"><span class="line units"></span> Daily revenue</span>
+        <span class="swatch"><span class="dot promo" style="width:10px;height:10px;"></span> Promotion active</span>
+      </div>
+      <div class="chart-svg-wrap">
+        <svg viewBox="0 0 860 232" role="img" aria-label="Daily revenue, Mar 22 to Aug 26 2026, with markers for every confirmed Niacinamide 20 USA influencer upload, sized by eventual view count">
+          <line class="grid-line" x1="44" y1="200" x2="846" y2="200"/>
+          <line class="grid-line" x1="44" y1="153" x2="846" y2="153"/>
+          <line class="grid-line" x1="44" y1="106" x2="846" y2="106"/>
+          <line class="grid-line" x1="44" y1="59" x2="846" y2="59"/>
+          <line class="grid-line" x1="44" y1="12" x2="846" y2="12"/>
+          <text class="axis-label" x="4" y="203" font-size="7.5">$0</text>
+          <text class="axis-label" x="0" y="156" font-size="7.5">$7k</text>
+          <text class="axis-label" x="0" y="109" font-size="7.5">$14k</text>
+          <text class="axis-label" x="0" y="62" font-size="7.5">$21k</text>
+          <text class="axis-label" x="0" y="15" font-size="7.5">$28k</text>
+
+          <rect class="promo-band" x="59.3" y="10" width="35.8" height="196"/>
+          <rect class="promo-band" x="248.3" y="10" width="71.5" height="196"/>
+          <rect class="promo-band" x="519.1" y="10" width="20.4" height="196"/>
+          <rect class="promo-band" x="718.3" y="10" width="76.6" height="196"/>
+
+          <path class="units-area" d="M44.0,200 L44.0,174.1 L49.1,180.3 L54.2,179.1 L59.3,146.2 L64.4,159.5 L69.5,158.9 L74.6,160.0 L79.8,160.3 L84.9,161.9 L90.0,143.9 L95.1,180.1 L100.2,185.8 L105.3,181.0 L110.4,179.7 L115.5,179.8 L120.6,182.9 L125.7,181.0 L130.8,184.5 L135.9,180.1 L141.1,180.7 L146.2,184.8 L151.3,184.9 L156.4,185.9 L161.5,187.1 L166.6,188.9 L171.7,191.8 L176.8,186.2 L181.9,181.7 L187.0,182.8 L192.1,185.0 L197.2,182.8 L202.4,181.4 L207.5,181.7 L212.6,182.4 L217.7,185.0 L222.8,177.0 L227.9,178.0 L233.0,184.1 L238.1,179.2 L243.2,181.4 L248.3,163.8 L253.4,173.4 L258.5,169.3 L263.7,173.4 L268.8,172.4 L273.9,172.0 L279.0,173.2 L284.1,171.0 L289.2,175.1 L294.3,166.9 L299.4,171.3 L304.5,171.5 L309.6,169.5 L314.7,161.0 L319.8,187.0 L325.0,183.4 L330.1,180.2 L335.2,182.1 L340.3,185.6 L345.4,181.0 L350.5,184.5 L355.6,185.9 L360.7,185.0 L365.8,179.7 L370.9,179.6 L376.0,184.9 L381.1,183.8 L386.3,183.5 L391.4,180.6 L396.5,178.8 L401.6,179.3 L406.7,181.8 L411.8,182.7 L416.9,183.1 L422.0,178.9 L427.1,181.0 L432.2,180.0 L437.3,182.8 L442.4,182.0 L447.6,184.6 L452.7,185.4 L457.8,183.9 L462.9,184.2 L468.0,183.4 L473.1,182.7 L478.2,178.0 L483.3,180.8 L488.4,180.3 L493.5,182.8 L498.6,181.7 L503.7,184.9 L508.9,181.8 L514.0,181.8 L519.1,15.4 L524.2,80.3 L529.3,97.7 L534.4,46.4 L539.5,181.2 L544.6,184.8 L549.7,187.0 L554.8,186.8 L559.9,188.6 L565.0,185.8 L570.2,186.5 L575.3,188.7 L580.4,181.0 L585.5,183.0 L590.6,185.8 L595.7,182.8 L600.8,183.0 L605.9,180.5 L611.0,183.5 L616.1,181.8 L621.2,179.6 L626.3,179.0 L631.5,181.1 L636.6,182.9 L641.7,184.3 L646.8,184.0 L651.9,182.8 L657.0,180.7 L662.1,183.8 L667.2,185.8 L672.3,182.0 L677.4,183.5 L682.5,186.1 L687.6,185.8 L692.8,180.0 L697.9,186.5 L703.0,186.5 L708.1,184.1 L713.2,185.0 L718.3,149.2 L723.4,151.2 L728.5,165.2 L733.6,163.7 L738.7,163.9 L743.8,165.3 L748.9,164.2 L754.1,166.1 L759.2,145.3 L764.3,147.0 L769.4,157.6 L774.5,154.9 L779.6,155.8 L784.7,143.2 L789.8,176.5 L794.9,179.4 L800.0,178.4 L805.1,178.8 L810.2,178.1 L815.4,180.9 L820.5,180.3 L825.6,181.8 L830.7,182.9 L835.8,183.3 L840.9,184.8 L846.0,183.9 L846.0,200 Z"/>
+          <polyline class="units-line-daily" points="44.0,174.1 49.1,180.3 54.2,179.1 59.3,146.2 64.4,159.5 69.5,158.9 74.6,160.0 79.8,160.3 84.9,161.9 90.0,143.9 95.1,180.1 100.2,185.8 105.3,181.0 110.4,179.7 115.5,179.8 120.6,182.9 125.7,181.0 130.8,184.5 135.9,180.1 141.1,180.7 146.2,184.8 151.3,184.9 156.4,185.9 161.5,187.1 166.6,188.9 171.7,191.8 176.8,186.2 181.9,181.7 187.0,182.8 192.1,185.0 197.2,182.8 202.4,181.4 207.5,181.7 212.6,182.4 217.7,185.0 222.8,177.0 227.9,178.0 233.0,184.1 238.1,179.2 243.2,181.4 248.3,163.8 253.4,173.4 258.5,169.3 263.7,173.4 268.8,172.4 273.9,172.0 279.0,173.2 284.1,171.0 289.2,175.1 294.3,166.9 299.4,171.3 304.5,171.5 309.6,169.5 314.7,161.0 319.8,187.0 325.0,183.4 330.1,180.2 335.2,182.1 340.3,185.6 345.4,181.0 350.5,184.5 355.6,185.9 360.7,185.0 365.8,179.7 370.9,179.6 376.0,184.9 381.1,183.8 386.3,183.5 391.4,180.6 396.5,178.8 401.6,179.3 406.7,181.8 411.8,182.7 416.9,183.1 422.0,178.9 427.1,181.0 432.2,180.0 437.3,182.8 442.4,182.0 447.6,184.6 452.7,185.4 457.8,183.9 462.9,184.2 468.0,183.4 473.1,182.7 478.2,178.0 483.3,180.8 488.4,180.3 493.5,182.8 498.6,181.7 503.7,184.9 508.9,181.8 514.0,181.8 519.1,15.4 524.2,80.3 529.3,97.7 534.4,46.4 539.5,181.2 544.6,184.8 549.7,187.0 554.8,186.8 559.9,188.6 565.0,185.8 570.2,186.5 575.3,188.7 580.4,181.0 585.5,183.0 590.6,185.8 595.7,182.8 600.8,183.0 605.9,180.5 611.0,183.5 616.1,181.8 621.2,179.6 626.3,179.0 631.5,181.1 636.6,182.9 641.7,184.3 646.8,184.0 651.9,182.8 657.0,180.7 662.1,183.8 667.2,185.8 672.3,182.0 677.4,183.5 682.5,186.1 687.6,185.8 692.8,180.0 697.9,186.5 703.0,186.5 708.1,184.1 713.2,185.0 718.3,149.2 723.4,151.2 728.5,165.2 733.6,163.7 738.7,163.9 743.8,165.3 748.9,164.2 754.1,166.1 759.2,145.3 764.3,147.0 769.4,157.6 774.5,154.9 779.6,155.8 784.7,143.2 789.8,176.5 794.9,179.4 800.0,178.4 805.1,178.8 810.2,178.1 815.4,180.9 820.5,180.3 825.6,181.8 830.7,182.9 835.8,183.3 840.9,184.8 846.0,183.9"/>
+
+          <g>
+            <circle class="upload-cluster" cx="59.3" cy="207" r="2.8"><title>2026-03-25: 1 untracked gifted/paid post (PR)</title></circle>
+            <circle class="upload-cluster" cx="120.6" cy="207" r="2.8"><title>2026-04-06: 1 untracked gifted/paid post (LATAM_YS_Feb)</title></circle>
+            <circle class="upload-cluster" cx="192.1" cy="207" r="2.8"><title>2026-04-20: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="207.5" cy="207" r="2.8"><title>2026-04-23: 1 untracked gifted/paid post (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="217.7" cy="207" r="3.2"><title>2026-04-25: 2 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="222.8" cy="207" r="4.8"><title>2026-04-26: 9 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="227.9" cy="207" r="4.8"><title>2026-04-27: 9 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="233.0" cy="207" r="6.2"><title>2026-04-28: 19 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="238.1" cy="207" r="5.7"><title>2026-04-29: @claudiaashao + 14 more untracked gifted/paid posts (US_Picky_Mar, see uptick table below)</title></circle>
+            <circle class="upload-cluster" cx="243.2" cy="207" r="5.3"><title>2026-04-30: 12 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="248.3" cy="207" r="6.5"><title>2026-05-01: 22 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="253.4" cy="207" r="6.0"><title>2026-05-02: 18 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="258.5" cy="207" r="3.8"><title>2026-05-03: 4 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="263.7" cy="207" r="5.5"><title>2026-05-04: 14 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="268.8" cy="207" r="6.9"><title>2026-05-05: 26 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="273.9" cy="207" r="8.5"><title>2026-05-06: 45 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="279.0" cy="207" r="7.6"><title>2026-05-07: 34 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="284.1" cy="207" r="7.7"><title>2026-05-08: 35 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="289.2" cy="207" r="5.8"><title>2026-05-09: 16 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="294.3" cy="207" r="9.1"><title>2026-05-10: 53 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="299.4" cy="207" r="5.9"><title>2026-05-11: 17 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="304.5" cy="207" r="3.2"><title>2026-05-12: 2 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="309.6" cy="207" r="3.2"><title>2026-05-13: 2 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="314.7" cy="207" r="3.2"><title>2026-05-14: 2 untracked gifted/paid posts (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="325.0" cy="207" r="2.8"><title>2026-05-16: 1 untracked gifted/paid post (US_Picky_Mar)</title></circle>
+            <circle class="upload-cluster" cx="335.2" cy="207" r="3.5"><title>2026-05-18: 3 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="340.3" cy="207" r="3.8"><title>2026-05-19: 4 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="345.4" cy="207" r="5.1"><title>2026-05-20: 11 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="350.5" cy="207" r="5.4"><title>2026-05-21: 13 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="355.6" cy="207" r="5.1"><title>2026-05-22: 11 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="360.7" cy="207" r="4.8"><title>2026-05-23: 9 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="365.8" cy="207" r="3.8"><title>2026-05-24: 4 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="370.9" cy="207" r="4.0"><title>2026-05-25: 5 untracked gifted/paid posts (US_Picky_Apr)</title></circle>
+            <circle class="upload-cluster" cx="376.0" cy="207" r="4.2"><title>2026-05-26: 6 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="381.1" cy="207" r="2.8"><title>2026-05-27: @brute.choi + 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign, see uptick table below)</title></circle>
+            <circle class="upload-cluster" cx="386.3" cy="207" r="3.2"><title>2026-05-28: @hudsonsqrd + 2 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign, see uptick table below)</title></circle>
+            <circle class="upload-cluster" cx="406.7" cy="207" r="2.8"><title>2026-06-01: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="427.1" cy="207" r="2.8"><title>2026-06-05: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="442.4" cy="207" r="4.0"><title>2026-06-08: 5 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="447.6" cy="207" r="2.8"><title>2026-06-09: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="493.5" cy="207" r="2.8"><title>2026-06-18: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="565.0" cy="207" r="3.2"><title>2026-07-02: 2 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="590.6" cy="207" r="2.8"><title>2026-07-07: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="595.7" cy="207" r="2.8"><title>2026-07-08: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="621.2" cy="207" r="2.8"><title>2026-07-13: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="631.5" cy="207" r="2.8"><title>2026-07-15: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="672.3" cy="207" r="2.8"><title>2026-07-23: @glowopedia (see uptick table below)</title></circle>
+            <circle class="upload-cluster" cx="697.9" cy="207" r="3.2"><title>2026-07-28: 2 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="738.7" cy="207" r="3.2"><title>2026-08-05: 2 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="764.3" cy="207" r="2.8"><title>2026-08-10: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="769.4" cy="207" r="3.2"><title>2026-08-11: 2 untracked gifted/paid posts (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+            <circle class="upload-cluster" cx="835.8" cy="207" r="2.8"><title>2026-08-24: 1 untracked gifted/paid post (GLOBAL_Paid_US_Niacinamide Campaign)</title></circle>
+          </g>
+
+          <g>
+            <circle class="upload-bubble" cx="309.6" cy="169.5" r="7.1"><title>2026-05-13 @diegomoone: 27,600 views, 3.40% ER (day revenue $4,542, promo active)</title></circle>
+            <circle class="upload-bubble" cx="335.2" cy="182.1" r="5.6"><title>2026-05-18 @drjuliansass: 10,875 views, 3.31% ER (day revenue $2,663)</title></circle>
+            <circle class="upload-bubble" cx="529.3" cy="97.7" r="5.2"><title>2026-06-25 @taylorbosmann: 7,813 views, 3.28% ER (day revenue $15,242, promo active)</title></circle>
+            <circle class="upload-bubble" cx="529.3" cy="97.7" r="4.5"><title>2026-06-25 @skincarewithshelbs: 3,917 views, 3.70% ER (day revenue $15,242, promo active)</title></circle>
+            <circle class="upload-bubble" cx="565.0" cy="185.8" r="5.8"><title>2026-07-02 @abigailcanfieldd: 13,100 views, 5.56% ER (day revenue $2,116)</title></circle>
+            <circle class="upload-bubble" cx="570.2" cy="186.5" r="9.8"><title>2026-07-03 @lifeofshauni: 77,600 views, 5.00% ER (day revenue $2,015)</title></circle>
+            <circle class="upload-bubble" cx="595.7" cy="182.8" r="12.0"><title>2026-07-08 @rw2100: 134,475 views, 3.92% ER (day revenue $2,560)</title></circle>
+            <circle class="upload-bubble" cx="595.7" cy="182.8" r="8.8"><title>2026-07-08 @tseringla5: 56,300 views, 3.22% ER (day revenue $2,560)</title></circle>
+            <circle class="upload-bubble" cx="611.0" cy="183.5" r="6.0"><title>2026-07-11 @taylorbosmann: 14,556 views, 3.19% ER (day revenue $2,457)</title></circle>
+            <circle class="upload-bubble" cx="713.2" cy="185.0" r="5.4"><title>2026-07-31 @bianca_xb: 9,344 views, 0.73% ER (day revenue $2,239)</title></circle>
+            <circle class="upload-bubble" cx="764.3" cy="147.0" r="3.5"><title>2026-08-10 @natethnl: 347 views, 9.80% ER (day revenue $7,900, promo active)</title></circle>
+            <circle class="upload-bubble" cx="784.7" cy="143.2" r="8.0"><title>2026-08-14 @_leaveitblankk: 42,100 views, 10.63% ER (day revenue $8,455, promo active)</title></circle>
+            <circle class="upload-bubble" cx="784.7" cy="143.2" r="5.8"><title>2026-08-14 @taylorbosmann: 13,300 views, 8.25% ER (day revenue $8,455, promo active)</title></circle>
+            <circle class="upload-bubble" cx="794.9" cy="179.4" r="5.0"><title>2026-08-16 @taylorbosmann: 6,674 views, 8.30% ER (day revenue $3,067)</title></circle>
+            <circle class="upload-bubble" cx="820.5" cy="180.3" r="6.6"><title>2026-08-21 @ryanlinn_: 21,894 views, 4.01% ER (day revenue $2,931)</title></circle>
+          </g>
+
+          <g class="month-label" font-size="8">
+            <text x="69.5" y="215" text-anchor="middle">Mar</text>
+            <text x="166.6" y="215" text-anchor="middle">Apr</text>
+            <text x="325.0" y="215" text-anchor="middle">May</text>
+            <text x="478.2" y="215" text-anchor="middle">Jun</text>
+            <text x="636.6" y="215" text-anchor="middle">Jul</text>
+            <text x="779.6" y="215" text-anchor="middle">Aug</text>
+          </g>
+        </svg>
+      </div>
+      <p class="chart-sub" style="margin-top:2px;">
+        The RAW DATA tracker originally logged 349 of these posts under two placeholder batch
+        dates (5/11 and 5/26) instead of real dates &mdash; corrected 2026-08-28 by checking each
+        post's actual Instagram/TikTok timestamp via Apify, revealing a staggered "US_Picky_Mar"
+        gifted-post rollout, mostly Apr 25&ndash;May 25 (peak: 53 posts on 5/10), almost entirely
+        untracked in KILL-GO. It overlaps the tail of the Best Deal promo (5/1&ndash;5/14) but shows
+        no standout revenue signal beyond that promo. Biggest tracked posts by eventual views:
+        @rw2100 (134,475, 7/8) and @lifeofshauni (77,600, 7/3) &mdash; both landed on ordinary
+        revenue days ($2,015&ndash;2,560). Best engagement + real revenue overlap: @_leaveitblankk
+        (8/14, 42,100 views, 10.63% ER, $8,455 that day) inside the Aug Best Deal. 8/27&ndash;28
+        (Elio's post) not yet reported by Seller Central &mdash; see summary.
+      </p>
+    </div>
+
+    <div class="legend">
+      <span class="swatch"><span class="dot promo"></span> Promotion active that week</span>
+      <span class="swatch"><span class="dot up"></span> Up vs. prior week</span>
+      <span class="swatch"><span class="dot down"></span> Down vs. prior week</span>
+    </div>
+
+    <p class="chart-sub" style="margin:0 0 4px;">All 158 days, Mar 22&ndash;Aug 26, 2026 &middot; % is vs. the prior day &middot; scrolls &mdash; 158 rows</p>
+    <div class="table-wrap" style="max-height:420px; overflow-y:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th class="num">Page views</th>
+            <th class="num">Units</th>
+            <th class="num">Revenue (real)</th>
+            <th>Promotion status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="date">2026-03-22</td>
+            <td class="num">2,489</td>
+            <td class="num">184</td>
+            <td class="num">$3,863</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-03-23</td>
+            <td class="num">1,841<span class="pct down">&minus;26.0%</span></td>
+            <td class="num">142</td>
+            <td class="num">$2,928</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-03-24</td>
+            <td class="num">1,658<span class="pct down">&minus;9.9%</span></td>
+            <td class="num">149</td>
+            <td class="num">$3,110</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-25</td>
+            <td class="num">4,079<span class="pct up">+146.0%</span></td>
+            <td class="num">478</td>
+            <td class="num">$8,014</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-26</td>
+            <td class="num">3,314<span class="pct down">&minus;18.8%</span></td>
+            <td class="num">359</td>
+            <td class="num">$6,031</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-27</td>
+            <td class="num">3,467<span class="pct up">+4.6%</span></td>
+            <td class="num">364</td>
+            <td class="num">$6,115</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-28</td>
+            <td class="num">3,344<span class="pct down">&minus;3.5%</span></td>
+            <td class="num">354</td>
+            <td class="num">$5,950</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-29</td>
+            <td class="num">3,467<span class="pct up">+3.7%</span></td>
+            <td class="num">355</td>
+            <td class="num">$5,917</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-30</td>
+            <td class="num">4,184<span class="pct up">+20.7%</span></td>
+            <td class="num">339</td>
+            <td class="num">$5,678</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-03-31</td>
+            <td class="num">4,318<span class="pct up">+3.2%</span></td>
+            <td class="num">497</td>
+            <td class="num">$8,350</td>
+            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-01</td>
+            <td class="num">1,290<span class="pct down">&minus;70.1%</span></td>
+            <td class="num">142</td>
+            <td class="num">$2,961</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-02</td>
+            <td class="num">1,146<span class="pct down">&minus;11.2%</span></td>
+            <td class="num">103</td>
+            <td class="num">$2,120</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-03</td>
+            <td class="num">1,132<span class="pct down">&minus;1.2%</span></td>
+            <td class="num">135</td>
+            <td class="num">$2,835</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-04</td>
+            <td class="num">1,215<span class="pct up">+7.3%</span></td>
+            <td class="num">145</td>
+            <td class="num">$3,022</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-05</td>
+            <td class="num">1,215<span class="pct up">+0.0%</span></td>
+            <td class="num">143</td>
+            <td class="num">$3,003</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-06</td>
+            <td class="num">1,163<span class="pct down">&minus;4.3%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,541</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-07</td>
+            <td class="num">1,256<span class="pct up">+8.0%</span></td>
+            <td class="num">136</td>
+            <td class="num">$2,833</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-08</td>
+            <td class="num">1,232<span class="pct down">&minus;1.9%</span></td>
+            <td class="num">110</td>
+            <td class="num">$2,309</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-09</td>
+            <td class="num">1,266<span class="pct up">+2.8%</span></td>
+            <td class="num">141</td>
+            <td class="num">$2,959</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-10</td>
+            <td class="num">1,061<span class="pct down">&minus;16.2%</span></td>
+            <td class="num">137</td>
+            <td class="num">$2,875</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-11</td>
+            <td class="num">1,171<span class="pct up">+10.4%</span></td>
+            <td class="num">108</td>
+            <td class="num">$2,268</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-12</td>
+            <td class="num">1,246<span class="pct up">+6.4%</span></td>
+            <td class="num">106</td>
+            <td class="num">$2,244</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-13</td>
+            <td class="num">1,136<span class="pct down">&minus;8.8%</span></td>
+            <td class="num">88</td>
+            <td class="num">$2,102</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-14</td>
+            <td class="num">1,160<span class="pct up">+2.1%</span></td>
+            <td class="num">91</td>
+            <td class="num">$1,924</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-15</td>
+            <td class="num">1,026<span class="pct down">&minus;11.6%</span></td>
+            <td class="num">77</td>
+            <td class="num">$1,656</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-16</td>
+            <td class="num">1,711<span class="pct up">+66.8%</span></td>
+            <td class="num">57</td>
+            <td class="num">$1,216</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-17</td>
+            <td class="num">1,436<span class="pct down">&minus;16.1%</span></td>
+            <td class="num">100</td>
+            <td class="num">$2,058</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-18</td>
+            <td class="num">1,396<span class="pct down">&minus;2.8%</span></td>
+            <td class="num">130</td>
+            <td class="num">$2,724</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-19</td>
+            <td class="num">1,624<span class="pct up">+16.3%</span></td>
+            <td class="num">123</td>
+            <td class="num">$2,556</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-20</td>
+            <td class="num">1,315<span class="pct down">&minus;19.0%</span></td>
+            <td class="num">106</td>
+            <td class="num">$2,227</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-21</td>
+            <td class="num">1,311<span class="pct down">&minus;0.3%</span></td>
+            <td class="num">123</td>
+            <td class="num">$2,563</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-22</td>
+            <td class="num">1,570<span class="pct up">+19.8%</span></td>
+            <td class="num">132</td>
+            <td class="num">$2,772</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-23</td>
+            <td class="num">1,534<span class="pct down">&minus;2.3%</span></td>
+            <td class="num">131</td>
+            <td class="num">$2,730</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-24</td>
+            <td class="num">1,486<span class="pct down">&minus;3.1%</span></td>
+            <td class="num">125</td>
+            <td class="num">$2,625</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-25</td>
+            <td class="num">1,740<span class="pct up">+17.1%</span></td>
+            <td class="num">107</td>
+            <td class="num">$2,241</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-26</td>
+            <td class="num">1,826<span class="pct up">+4.9%</span></td>
+            <td class="num">163</td>
+            <td class="num">$3,422</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-27</td>
+            <td class="num">1,981<span class="pct up">+8.5%</span></td>
+            <td class="num">156</td>
+            <td class="num">$3,276</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-28</td>
+            <td class="num">1,820<span class="pct down">&minus;8.1%</span></td>
+            <td class="num">115</td>
+            <td class="num">$2,364</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-29</td>
+            <td class="num">1,615<span class="pct down">&minus;11.3%</span></td>
+            <td class="num">148</td>
+            <td class="num">$3,105</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-04-30</td>
+            <td class="num">1,246<span class="pct down">&minus;22.8%</span></td>
+            <td class="num">133</td>
+            <td class="num">$2,765</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-01</td>
+            <td class="num">2,692<span class="pct up">+116.1%</span></td>
+            <td class="num">366</td>
+            <td class="num">$5,385</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-02</td>
+            <td class="num">2,516<span class="pct down">&minus;6.5%</span></td>
+            <td class="num">271</td>
+            <td class="num">$3,954</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-03</td>
+            <td class="num">2,711<span class="pct up">+7.8%</span></td>
+            <td class="num">312</td>
+            <td class="num">$4,572</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-04</td>
+            <td class="num">2,603<span class="pct down">&minus;4.0%</span></td>
+            <td class="num">271</td>
+            <td class="num">$3,969</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-05</td>
+            <td class="num">2,678<span class="pct up">+2.9%</span></td>
+            <td class="num">280</td>
+            <td class="num">$4,116</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-06</td>
+            <td class="num">2,677<span class="pct down">&minus;0.0%</span></td>
+            <td class="num">284</td>
+            <td class="num">$4,175</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-07</td>
+            <td class="num">2,560<span class="pct down">&minus;4.4%</span></td>
+            <td class="num">273</td>
+            <td class="num">$3,998</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-08</td>
+            <td class="num">2,589<span class="pct up">+1.1%</span></td>
+            <td class="num">296</td>
+            <td class="num">$4,322</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-09</td>
+            <td class="num">2,785<span class="pct up">+7.6%</span></td>
+            <td class="num">253</td>
+            <td class="num">$3,704</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-10</td>
+            <td class="num">2,841<span class="pct up">+2.0%</span></td>
+            <td class="num">335</td>
+            <td class="num">$4,924</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-11</td>
+            <td class="num">3,797<span class="pct up">+33.7%</span></td>
+            <td class="num">292</td>
+            <td class="num">$4,278</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-12</td>
+            <td class="num">3,951<span class="pct up">+4.1%</span></td>
+            <td class="num">289</td>
+            <td class="num">$4,239</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-13</td>
+            <td class="num">3,847<span class="pct down">&minus;2.6%</span></td>
+            <td class="num">311</td>
+            <td class="num">$4,542</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-05-14</td>
+            <td class="num">5,178<span class="pct up">+34.6%</span></td>
+            <td class="num">397</td>
+            <td class="num">$5,806</td>
+            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-15</td>
+            <td class="num">1,631<span class="pct down">&minus;68.5%</span></td>
+            <td class="num">94</td>
+            <td class="num">$1,941</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-16</td>
+            <td class="num">1,524<span class="pct down">&minus;6.6%</span></td>
+            <td class="num">118</td>
+            <td class="num">$2,478</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-17</td>
+            <td class="num">1,498<span class="pct down">&minus;1.7%</span></td>
+            <td class="num">141</td>
+            <td class="num">$2,955</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-18</td>
+            <td class="num">1,308<span class="pct down">&minus;12.7%</span></td>
+            <td class="num">127</td>
+            <td class="num">$2,663</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-19</td>
+            <td class="num">1,313<span class="pct up">+0.4%</span></td>
+            <td class="num">104</td>
+            <td class="num">$2,141</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-20</td>
+            <td class="num">2,100<span class="pct up">+59.9%</span></td>
+            <td class="num">137</td>
+            <td class="num">$2,828</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-21</td>
+            <td class="num">1,647<span class="pct down">&minus;21.6%</span></td>
+            <td class="num">111</td>
+            <td class="num">$2,308</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-22</td>
+            <td class="num">1,680<span class="pct up">+2.0%</span></td>
+            <td class="num">100</td>
+            <td class="num">$2,099</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-23</td>
+            <td class="num">1,717<span class="pct up">+2.2%</span></td>
+            <td class="num">107</td>
+            <td class="num">$2,241</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-24</td>
+            <td class="num">1,718<span class="pct up">+0.1%</span></td>
+            <td class="num">144</td>
+            <td class="num">$3,021</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-25</td>
+            <td class="num">1,780<span class="pct up">+3.6%</span></td>
+            <td class="num">145</td>
+            <td class="num">$3,041</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-26</td>
+            <td class="num">1,344<span class="pct down">&minus;24.5%</span></td>
+            <td class="num">108</td>
+            <td class="num">$2,246</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-27</td>
+            <td class="num">1,701<span class="pct up">+26.6%</span></td>
+            <td class="num">115</td>
+            <td class="num">$2,413</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-28</td>
+            <td class="num">1,791<span class="pct up">+5.3%</span></td>
+            <td class="num">118</td>
+            <td class="num">$2,455</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-29</td>
+            <td class="num">2,538<span class="pct up">+41.7%</span></td>
+            <td class="num">139</td>
+            <td class="num">$2,896</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-30</td>
+            <td class="num">1,995<span class="pct down">&minus;21.4%</span></td>
+            <td class="num">150</td>
+            <td class="num">$3,150</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-05-31</td>
+            <td class="num">1,502<span class="pct down">&minus;24.7%</span></td>
+            <td class="num">148</td>
+            <td class="num">$3,086</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-01</td>
+            <td class="num">1,077<span class="pct down">&minus;28.3%</span></td>
+            <td class="num">131</td>
+            <td class="num">$2,706</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-02</td>
+            <td class="num">1,120<span class="pct up">+4.0%</span></td>
+            <td class="num">123</td>
+            <td class="num">$2,583</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-03</td>
+            <td class="num">1,163<span class="pct up">+3.8%</span></td>
+            <td class="num">120</td>
+            <td class="num">$2,519</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-04</td>
+            <td class="num">1,151<span class="pct down">&minus;1.0%</span></td>
+            <td class="num">150</td>
+            <td class="num">$3,145</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-05</td>
+            <td class="num">1,003<span class="pct down">&minus;12.9%</span></td>
+            <td class="num">135</td>
+            <td class="num">$2,832</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-06</td>
+            <td class="num">1,085<span class="pct up">+8.2%</span></td>
+            <td class="num">143</td>
+            <td class="num">$2,982</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-07</td>
+            <td class="num">1,248<span class="pct up">+15.0%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,561</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-08</td>
+            <td class="num">1,253<span class="pct up">+0.4%</span></td>
+            <td class="num">129</td>
+            <td class="num">$2,674</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-09</td>
+            <td class="num">1,208<span class="pct down">&minus;3.6%</span></td>
+            <td class="num">109</td>
+            <td class="num">$2,289</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-10</td>
+            <td class="num">1,199<span class="pct down">&minus;0.7%</span></td>
+            <td class="num">106</td>
+            <td class="num">$2,182</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-11</td>
+            <td class="num">1,029<span class="pct down">&minus;14.2%</span></td>
+            <td class="num">114</td>
+            <td class="num">$2,394</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-12</td>
+            <td class="num">1,079<span class="pct up">+4.9%</span></td>
+            <td class="num">113</td>
+            <td class="num">$2,352</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-13</td>
+            <td class="num">1,045<span class="pct down">&minus;3.2%</span></td>
+            <td class="num">119</td>
+            <td class="num">$2,478</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-14</td>
+            <td class="num">1,177<span class="pct up">+12.6%</span></td>
+            <td class="num">123</td>
+            <td class="num">$2,583</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-15</td>
+            <td class="num">1,171<span class="pct down">&minus;0.5%</span></td>
+            <td class="num">156</td>
+            <td class="num">$3,272</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-16</td>
+            <td class="num">1,193<span class="pct up">+1.9%</span></td>
+            <td class="num">138</td>
+            <td class="num">$2,854</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-17</td>
+            <td class="num">1,151<span class="pct down">&minus;3.5%</span></td>
+            <td class="num">142</td>
+            <td class="num">$2,936</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-18</td>
+            <td class="num">1,210<span class="pct up">+5.1%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,561</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-19</td>
+            <td class="num">1,423<span class="pct up">+17.6%</span></td>
+            <td class="num">131</td>
+            <td class="num">$2,727</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-20</td>
+            <td class="num">2,088<span class="pct up">+46.7%</span></td>
+            <td class="num">107</td>
+            <td class="num">$2,244</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-21</td>
+            <td class="num">2,638<span class="pct up">+26.3%</span></td>
+            <td class="num">130</td>
+            <td class="num">$2,706</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-22</td>
+            <td class="num">2,171<span class="pct down">&minus;17.7%</span></td>
+            <td class="num">130</td>
+            <td class="num">$2,707</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-06-23</td>
+            <td class="num">16,037<span class="pct up">+638.7%</span></td>
+            <td class="num">2,171</td>
+            <td class="num">$27,487</td>
+            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-06-24</td>
+            <td class="num">9,084<span class="pct down">&minus;43.4%</span></td>
+            <td class="num">1,415</td>
+            <td class="num">$17,824</td>
+            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-06-25</td>
+            <td class="num">7,919<span class="pct down">&minus;12.8%</span></td>
+            <td class="num">1,208</td>
+            <td class="num">$15,242</td>
+            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-06-26</td>
+            <td class="num">8,668<span class="pct up">+9.5%</span></td>
+            <td class="num">1,816</td>
+            <td class="num">$22,882</td>
+            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-27</td>
+            <td class="num">1,858<span class="pct down">&minus;78.6%</span></td>
+            <td class="num">139</td>
+            <td class="num">$2,795</td>
+            <td><span class="no-promo">post&#8209;Prime Day pullback</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-28</td>
+            <td class="num">1,764<span class="pct down">&minus;5.1%</span></td>
+            <td class="num">108</td>
+            <td class="num">$2,266</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-29</td>
+            <td class="num">1,583<span class="pct down">&minus;10.3%</span></td>
+            <td class="num">97</td>
+            <td class="num">$1,930</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-06-30</td>
+            <td class="num">1,443<span class="pct down">&minus;8.8%</span></td>
+            <td class="num">99</td>
+            <td class="num">$1,972</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-01</td>
+            <td class="num">1,196<span class="pct down">&minus;17.1%</span></td>
+            <td class="num">82</td>
+            <td class="num">$1,699</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-02</td>
+            <td class="num">1,141<span class="pct down">&minus;4.6%</span></td>
+            <td class="num">103</td>
+            <td class="num">$2,116</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-03</td>
+            <td class="num">1,209<span class="pct up">+6.0%</span></td>
+            <td class="num">96</td>
+            <td class="num">$2,015</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-04</td>
+            <td class="num">2,231<span class="pct up">+84.5%</span></td>
+            <td class="num">80</td>
+            <td class="num">$1,679</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-05</td>
+            <td class="num">2,864<span class="pct up">+28.4%</span></td>
+            <td class="num">135</td>
+            <td class="num">$2,831</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-06</td>
+            <td class="num">4,104<span class="pct up">+43.3%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,537</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-07</td>
+            <td class="num">3,656<span class="pct down">&minus;10.9%</span></td>
+            <td class="num">102</td>
+            <td class="num">$2,121</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-08</td>
+            <td class="num">2,304<span class="pct down">&minus;37.0%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,560</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-09</td>
+            <td class="num">2,226<span class="pct down">&minus;3.4%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,538</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-10</td>
+            <td class="num">2,183<span class="pct down">&minus;1.9%</span></td>
+            <td class="num">138</td>
+            <td class="num">$2,897</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-11</td>
+            <td class="num">2,290<span class="pct up">+4.9%</span></td>
+            <td class="num">117</td>
+            <td class="num">$2,457</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-12</td>
+            <td class="num">2,322<span class="pct up">+1.4%</span></td>
+            <td class="num">129</td>
+            <td class="num">$2,707</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-13</td>
+            <td class="num">2,266<span class="pct down">&minus;2.4%</span></td>
+            <td class="num">145</td>
+            <td class="num">$3,043</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-14</td>
+            <td class="num">2,267<span class="pct up">+0.0%</span></td>
+            <td class="num">149</td>
+            <td class="num">$3,128</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-15</td>
+            <td class="num">1,988<span class="pct down">&minus;12.3%</span></td>
+            <td class="num">134</td>
+            <td class="num">$2,812</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-16</td>
+            <td class="num">1,774<span class="pct down">&minus;10.8%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,540</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-17</td>
+            <td class="num">1,727<span class="pct down">&minus;2.6%</span></td>
+            <td class="num">111</td>
+            <td class="num">$2,331</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-18</td>
+            <td class="num">1,783<span class="pct up">+3.2%</span></td>
+            <td class="num">114</td>
+            <td class="num">$2,390</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-19</td>
+            <td class="num">1,853<span class="pct up">+3.9%</span></td>
+            <td class="num">122</td>
+            <td class="num">$2,562</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-20</td>
+            <td class="num">1,871<span class="pct up">+1.0%</span></td>
+            <td class="num">138</td>
+            <td class="num">$2,872</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-21</td>
+            <td class="num">1,997<span class="pct up">+6.7%</span></td>
+            <td class="num">116</td>
+            <td class="num">$2,415</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-22</td>
+            <td class="num">2,059<span class="pct up">+3.1%</span></td>
+            <td class="num">101</td>
+            <td class="num">$2,120</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-23</td>
+            <td class="num">2,115<span class="pct up">+2.7%</span></td>
+            <td class="num">128</td>
+            <td class="num">$2,688</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-24</td>
+            <td class="num">1,976<span class="pct down">&minus;6.6%</span></td>
+            <td class="num">117</td>
+            <td class="num">$2,457</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-25</td>
+            <td class="num">1,908<span class="pct down">&minus;3.4%</span></td>
+            <td class="num">101</td>
+            <td class="num">$2,077</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-26</td>
+            <td class="num">1,984<span class="pct up">+4.0%</span></td>
+            <td class="num">101</td>
+            <td class="num">$2,119</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-27</td>
+            <td class="num">1,251<span class="pct down">&minus;36.9%</span></td>
+            <td class="num">142</td>
+            <td class="num">$2,981</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-28</td>
+            <td class="num">1,315<span class="pct up">+5.1%</span></td>
+            <td class="num">97</td>
+            <td class="num">$2,008</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-29</td>
+            <td class="num">1,163<span class="pct down">&minus;11.6%</span></td>
+            <td class="num">96</td>
+            <td class="num">$2,007</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-30</td>
+            <td class="num">1,113<span class="pct down">&minus;4.3%</span></td>
+            <td class="num">116</td>
+            <td class="num">$2,367</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-07-31</td>
+            <td class="num">1,068<span class="pct down">&minus;4.0%</span></td>
+            <td class="num">109</td>
+            <td class="num">$2,239</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-01</td>
+            <td class="num">4,865<span class="pct up">+355.5%</span></td>
+            <td class="num">602</td>
+            <td class="num">$7,573</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-02</td>
+            <td class="num">4,706<span class="pct down">&minus;3.3%</span></td>
+            <td class="num">578</td>
+            <td class="num">$7,270</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-03</td>
+            <td class="num">3,775<span class="pct down">&minus;19.8%</span></td>
+            <td class="num">411</td>
+            <td class="num">$5,179</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-04</td>
+            <td class="num">3,381<span class="pct down">&minus;10.4%</span></td>
+            <td class="num">431</td>
+            <td class="num">$5,405</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-05</td>
+            <td class="num">3,697<span class="pct up">+9.3%</span></td>
+            <td class="num">427</td>
+            <td class="num">$5,380</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-06</td>
+            <td class="num">3,764<span class="pct up">+1.8%</span></td>
+            <td class="num">410</td>
+            <td class="num">$5,166</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-07</td>
+            <td class="num">3,887<span class="pct up">+3.3%</span></td>
+            <td class="num">425</td>
+            <td class="num">$5,330</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-08</td>
+            <td class="num">3,797<span class="pct down">&minus;2.3%</span></td>
+            <td class="num">401</td>
+            <td class="num">$5,053</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-09</td>
+            <td class="num">4,936<span class="pct up">+30.0%</span></td>
+            <td class="num">649</td>
+            <td class="num">$8,152</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-10</td>
+            <td class="num">4,980<span class="pct up">+0.9%</span></td>
+            <td class="num">628</td>
+            <td class="num">$7,900</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-11</td>
+            <td class="num">4,196<span class="pct down">&minus;15.7%</span></td>
+            <td class="num">502</td>
+            <td class="num">$6,313</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-12</td>
+            <td class="num">5,150<span class="pct up">+22.7%</span></td>
+            <td class="num">533</td>
+            <td class="num">$6,716</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-13</td>
+            <td class="num">4,541<span class="pct down">&minus;11.8%</span></td>
+            <td class="num">525</td>
+            <td class="num">$6,577</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-14</td>
+            <td class="num">4,828<span class="pct up">+6.3%</span></td>
+            <td class="num">672</td>
+            <td class="num">$8,455</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr class="promo-row">
+            <td class="date">2026-08-15</td>
+            <td class="num">2,645<span class="pct down">&minus;45.2%</span></td>
+            <td class="num">194</td>
+            <td class="num">$3,495</td>
+            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-16</td>
+            <td class="num">2,305<span class="pct down">&minus;12.9%</span></td>
+            <td class="num">171</td>
+            <td class="num">$3,067</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-17</td>
+            <td class="num">2,262<span class="pct down">&minus;1.9%</span></td>
+            <td class="num">179</td>
+            <td class="num">$3,213</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-18</td>
+            <td class="num">2,003<span class="pct down">&minus;11.5%</span></td>
+            <td class="num">176</td>
+            <td class="num">$3,158</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-19</td>
+            <td class="num">2,067<span class="pct up">+3.2%</span></td>
+            <td class="num">183</td>
+            <td class="num">$3,267</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-20</td>
+            <td class="num">2,113<span class="pct up">+2.2%</span></td>
+            <td class="num">158</td>
+            <td class="num">$2,850</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-21</td>
+            <td class="num">2,087<span class="pct down">&minus;1.2%</span></td>
+            <td class="num">161</td>
+            <td class="num">$2,931</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-22</td>
+            <td class="num">2,109<span class="pct up">+1.1%</span></td>
+            <td class="num">148</td>
+            <td class="num">$2,711</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-23</td>
+            <td class="num">1,742<span class="pct down">&minus;17.4%</span></td>
+            <td class="num">142</td>
+            <td class="num">$2,546</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-24</td>
+            <td class="num">1,536<span class="pct down">&minus;11.8%</span></td>
+            <td class="num">136</td>
+            <td class="num">$2,492</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-25</td>
+            <td class="num">1,330<span class="pct down">&minus;13.4%</span></td>
+            <td class="num">124</td>
+            <td class="num">$2,271</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+          <tr>
+            <td class="date">2026-08-26</td>
+            <td class="num">1,334<span class="pct up">+0.3%</span></td>
+            <td class="num">132</td>
+            <td class="num">$2,398</td>
+            <td><span class="no-promo">&mdash;</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-block">
+      <h2>Sales upticks that followed a specific post</h2>
+      <p class="chart-sub">US + Niacinamide 20 posts only &middot; non-promo days &middot; real revenue on the post's day or the day after vs. the day before &middot; daily revenue naturally varies, so treat as candidates, not proof &middot; handles link to the actual post (RAW DATA tracker)</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Post(s)</th>
+              <th class="num">Day before</th>
+              <th class="num">Peak day</th>
+              <th class="num">Lift</th>
+              <th>Performance (if tracked)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="date">2026-04-29</td>
+              <td class="content-cell"><a href="https://www.instagram.com/p/DXuIUA5jbF3/" target="_blank" rel="noopener">@claudiaashao</a></td>
+              <td class="num">$2,364</td>
+              <td class="num">$3,105 <span class="no-promo">(same day)</span></td>
+              <td class="num pct up">+31%</td>
+              <td class="content-cell"><span class="empty">not tracked</span></td>
+            </tr>
+            <tr>
+              <td class="date">2026-07-23</td>
+              <td class="content-cell"><a href="https://www.instagram.com/p/DbGYYD-hbdo/" target="_blank" rel="noopener">@glowopedia</a></td>
+              <td class="num">$2,120</td>
+              <td class="num">$2,688 <span class="no-promo">(same day)</span></td>
+              <td class="num pct up">+27%</td>
+              <td class="content-cell">killed 8/8 &mdash; ER 0.47%, flat views</td>
+            </tr>
+            <tr>
+              <td class="date">2026-07-02</td>
+              <td class="content-cell"><a href="https://www.tiktok.com/@abigailcanfieldd/video/7657982534038375694" target="_blank" rel="noopener">@abigailcanfieldd</a> +2 others</td>
+              <td class="num">$1,699</td>
+              <td class="num">$2,116 <span class="no-promo">(same day)</span></td>
+              <td class="num pct up">+25%</td>
+              <td class="content-cell">@abigailcanfieldd: 13,100 views, 5.56% ER</td>
+            </tr>
+            <tr>
+              <td class="date">2026-07-08</td>
+              <td class="content-cell"><a href="https://www.instagram.com/reel/DagcNujJK37/" target="_blank" rel="noopener">@rw2100</a>, <a href="https://www.instagram.com/p/DagDpfxOQuq/" target="_blank" rel="noopener">@taylorbosmann</a>, <a href="https://www.tiktok.com/@tseringla5/video/7660165337505107221" target="_blank" rel="noopener">@tseringla5</a></td>
+              <td class="num">$2,121</td>
+              <td class="num">$2,560 <span class="no-promo">(same day)</span></td>
+              <td class="num pct up">+21%</td>
+              <td class="content-cell">@rw2100: 134,475 views, 3.92% ER</td>
+            </tr>
+            <tr>
+              <td class="date">2026-05-28</td>
+              <td class="content-cell"><a href="https://www.instagram.com/p/DY5kKrbhkWw/" target="_blank" rel="noopener">@hudsonsqrd</a></td>
+              <td class="num">$2,413</td>
+              <td class="num">$2,896 <span class="no-promo">(next day)</span></td>
+              <td class="num pct up">+20%</td>
+              <td class="content-cell">killed &mdash; ER 1.98%</td>
+            </tr>
+            <tr>
+              <td class="date">2026-07-13</td>
+              <td class="content-cell"><a href="https://www.instagram.com/p/DavGN3iMlax/" target="_blank" rel="noopener">@blueyoobin</a></td>
+              <td class="num">$2,707</td>
+              <td class="num">$3,128 <span class="no-promo">(next day)</span></td>
+              <td class="num pct up">+16%</td>
+              <td class="content-cell"><span class="empty">not tracked</span></td>
+            </tr>
+            <tr>
+              <td class="date">2026-05-27</td>
+              <td class="content-cell"><a href="https://www.instagram.com/p/DY2EiRgugG3/" target="_blank" rel="noopener">@brute.choi</a></td>
+              <td class="num">$2,246</td>
+              <td class="num">$2,455 <span class="no-promo">(next day)</span></td>
+              <td class="num pct up">+9%</td>
+              <td class="content-cell">killed &mdash; ER 2.95%</td>
+            </tr>
+            <tr>
+              <td class="date">2026-05-19</td>
+              <td class="content-cell"><a href="https://www.tiktok.com/@brutechoi/video/7641606293165264141" target="_blank" rel="noopener">@brutechoi</a>, <a href="https://www.tiktok.com/@hannah.oh.kr/video/7641700013248122142" target="_blank" rel="noopener">@hannah.oh.kr</a> +1</td>
+              <td class="num">$2,663</td>
+              <td class="num">$2,828 <span class="no-promo">(next day)</span></td>
+              <td class="num pct up">+6%</td>
+              <td class="content-cell"><span class="empty">not tracked</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-sub" style="margin-top:6px;">
+        Only two of these have both a real revenue bump AND decent tracked engagement:
+        @abigailcanfieldd (7/2) and, more weakly, @glowopedia (7/23) &mdash; except glowopedia's
+        video was later killed by KILL-GO for weak performance (0.47% ER), so that one reads as
+        coincidence. Everything else either has no tracked performance or was flagged as a weak
+        post despite the same-day revenue uptick &mdash; a reminder that a same-day coincidence
+        alone is weak evidence.
+      </p>
+    </div>
+
+    <div class="insights">
+      <h2>Key insights</h2>
+      <ul>
+        <li><strong>At daily resolution, the views&harr;revenue correlation is almost entirely a
+        promo-day effect.</strong> Across all 158 days, r&nbsp;=&nbsp;0.93 &mdash; but on the 118
+        days with no promotion running, that drops to r&nbsp;=&nbsp;0.18. Day-to-day, ordinary
+        page-view swings don't reliably forecast that day's revenue; the strong overall number is
+        being driven by four short, huge promo windows, not a steady daily relationship. (Dropping
+        only Prime Day + the Aug Best Deal, and keeping the smaller Big Spring Sale / Best Deal
+        promos in, gives r&nbsp;=&nbsp;0.74 &mdash; still mostly a promo story.)</li>
+        <li><strong>Prime Day remains the single biggest revenue event of the period.</strong> Jun
+        23 hit $27,487 in real revenue in one day (+539% page views, +914% revenue vs. the day
+        before) with no confirmed content upload that day, then fell back &minus;79% four days
+        later &mdash; a textbook promo spike-and-reversion, not a content effect.</li>
+        <li><strong>The clearest content/promo overlap is Aug 14.</strong> @_leaveitblankk's post
+        (42,100 views, 10.63% ER &mdash; the best engagement of any tracked USA post) landed on a day
+        with $8,455 in real revenue (well above the ~$2,500 non-promo daily baseline) &mdash; but
+        the Aug Best Deal (40% off) was active that same day, so the lift can&rsquo;t be cleanly
+        credited to the post alone.</li>
+        <li><strong>Raw view count doesn&rsquo;t predict a revenue bump &mdash; engagement rate and
+        timing do.</strong> @rw2100 (134,475 views) and @lifeofshauni (77,600 views) both landed on
+        ordinary, non-promo revenue days ($2,015&ndash;2,560, in line with the ~$2,500 baseline).
+        The best real evidence of an organic lift is @abigailcanfieldd's 7/2 post (13,100 views,
+        5.56% ER, revenue +25% same-day) &mdash; decent reach and decent engagement, together, on a
+        non-promo day.</li>
+        <li><strong>Elio's 8/27 post still can&rsquo;t be verified.</strong> Seller Central's own
+        reporting lags 1&ndash;2 days; 8/27&ndash;28 were checked again the same day as this report
+        and are still blank (8/26 is the latest confirmed day: $2,398 revenue, in line with the
+        recent declining trend, no anomaly). The live jump you saw in the Seller Central dashboard
+        is real-time and more precise than this daily report will ever show; once 8/27&ndash;28
+        data lands here, it can be added to confirm the size of the bump against the days before.</li>
+        <li><strong>A tracker data-quality fix surfaced 349 previously-hidden real posts.</strong>
+        406 rows were logged under two placeholder batch dates instead of real ones; checking each
+        post's actual Instagram/TikTok timestamp via Apify and correcting the sheet revealed a
+        staggered "US_Picky_Mar" gifted rollout (mostly Apr 25&ndash;May 25, peaking at 53 posts on
+        5/10) that the report previously undercounted as 34 dated posts total. Despite the much
+        larger real volume, it shows no standout revenue signal beyond the Best Deal promo it
+        partly overlaps &mdash; reinforcing insight #4: raw post volume doesn't move revenue on its
+        own.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="note">
+    Page views, units, and revenue: Amazon Seller Central Business Reports &rsaquo;
+    "Detail Page Sales and Traffic By Child Item" &rsaquo; Product Performance Spotlight, ASIN
+    B0FM23ZR4H, downloaded 2026-08-28, real daily data (not an estimate), full 158&#8209;day
+    window Mar 22&ndash;Aug 26, 2026 with no gaps. 8/27&ndash;28 checked and still not reported by
+    Amazon as of this update (Seller Central's own 1&ndash;2 day lag). Promotions: JUMISO Marketing
+    Dashboard / Notion promo calendar, Amazon US, confirmed 2026-08-28. Influencer uploads:
+    RAW DATA tracker, Region = USA and Products contains "Niacinamide 20 Serum" only (467 posts
+    across 56 dated days in-window as of 2026-08-28, after an Upload Date correction &mdash; see
+    below), cross-referenced against the KILL-GO Ad Boosting Machine's Hold Review + Kill Archive
+    tabs for actual Total Views / ER (16 tracked posts; view counts are cumulative as of each
+    post's last KILL-GO check, not same-day views; KILL-GO tracking only has entries from mid-May
+    onward, so Mar&ndash;early-May has upload dates but no tracked performance). Upload Date
+    correction (2026-08-28): 406 rows were originally logged under two placeholder batch dates
+    (5/11/2026, 5/26/2026, all "US_Picky_Mar" gifted campaign); each post's real date was checked
+    against its actual Instagram/TikTok timestamp via Apify (apify~instagram-scraper,
+    clockworks~tiktok-scraper) and corrected in place in the RAW DATA sheet &mdash; 383 rows had a
+    real date different from the batch stamp (now Apr 25&ndash;May 25), 3 were already correct, and
+    20 could not be resolved (private/deleted posts) and were left unchanged. Correlations
+    (Pearson r) computed on the daily views/revenue series across the full window and on the
+    subset of days with no active promotion.
+  </footer>
+</div>
