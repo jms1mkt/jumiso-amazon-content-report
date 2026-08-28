@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 <title>Page Views &amp; Content Report</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -384,6 +385,20 @@
     line-height: 1.5;
   }
 
+  .lang-btn {
+    font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--header-ink);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    padding: 5px 12px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  .lang-btn:hover { background: rgba(255,255,255,0.16); }
+
   @media print {
     body { padding: 0; background: var(--surface); }
     .page { max-width: 100%; border: none; border-radius: 0; box-shadow: none; }
@@ -397,17 +412,18 @@
 <div class="page">
   <header class="banner">
     <div class="banner-title">
-      <h1>Page Views, Revenue &amp; Content Correlation</h1>
-      <p>JUMISO &middot; Niacinamide 20 Serum (ASIN B0FM23ZR4H) &middot; US &middot; daily, 2026 YTD</p>
+      <h1 data-ko="페이지 뷰, 매출 &amp; 콘텐츠 상관관계">Page Views, Revenue &amp; Content Correlation</h1>
+      <p data-ko="JUMISO &middot; 나이아신아마이드 20 세럼 (ASIN B0FM23ZR4H) &middot; 미국 &middot; 일별, 2026년 누적">JUMISO &middot; Niacinamide 20 Serum (ASIN B0FM23ZR4H) &middot; US &middot; daily, 2026 YTD</p>
     </div>
     <div class="banner-meta">
-      <div><strong>Window:</strong> Mar 22 &ndash; Aug 26, 2026 (158 days)</div>
-      <div><strong>Prepared:</strong> Aug 28, 2026</div>
+      <div data-ko="<strong>기간:</strong> 2026년 3월 22일 &ndash; 8월 26일 (158일)"><strong>Window:</strong> Mar 22 &ndash; Aug 26, 2026 (158 days)</div>
+      <div data-ko="<strong>작성일:</strong> 2026년 8월 28일"><strong>Prepared:</strong> Aug 28, 2026</div>
+      <button id="lang-toggle" class="lang-btn" onclick="toggleLang()" style="margin-top:8px;">한국어</button>
     </div>
   </header>
 
   <main>
-    <p class="summary">
+    <p class="summary" data-ko="일별 단위의 실제 셀러 센트럴 데이터(전체 158일)를 보면 페이지 뷰와 매출이 전반적으로 매우 밀접하게 움직입니다(<strong>r&nbsp;=&nbsp;0.93</strong>) &mdash; 하지만 이 수치는 거의 전적으로 프로모션 기간의 효과입니다. 4개의 프로모션 기간을 제외하면 일별 상관관계는 거의 사라집니다(프로모션이 없는 118일 기준 <strong>r&nbsp;=&nbsp;0.18</strong>): 평상시 페이지 뷰의 일일 변동은 그날의 매출을 안정적으로 예측하지 못하며, 그저 함께 불규칙하게 움직일 뿐입니다. 이 제품에 매칭된 콘텐츠도 일별 단위에서 비슷하게 엇갈린 결과를 보여줍니다: 기간 중 조회수가 가장 높았던 두 영상(@rw2100, 13만 4천 뷰; @lifeofshauni, 7만 8천 뷰)은 평범한 날에 게시되어 매출 상승폭이 미미했고, @_leaveitblankk의 8/14 게시물(4만 2천 뷰, <strong>참여율 10.63%</strong> &mdash; 추적된 게시물 중 최고 참여율)은 프로모션 기간에 게시되어 그 효과를 할인과 명확히 분리할 수 없습니다. Elio의 8/27 게시물(Slack에서 실시간으로 언급됨)은 아직 검증할 수 없습니다 &mdash; 셀러 센트럴 데이터는 1&ndash;2일 지연되며, 8/27&ndash;28 데이터는 이 보고서 작성 시점(같은 날 재확인, 여전히 비어 있음)까지 제공되지 않았습니다.">
       Real Seller Central data at daily resolution (all 158 days) shows page views and revenue
       moving together very closely overall (<strong>r&nbsp;=&nbsp;0.93</strong>) &mdash; but that
       number is almost entirely a promo-day effect. Strip out the four promo windows and the
@@ -425,28 +441,28 @@
 
     <div class="stat-row">
       <div class="stat-chip">
-        <div class="label">Views &harr; Revenue correlation</div>
+        <div class="label" data-ko="페이지 뷰 &harr; 매출 상관계수">Views &harr; Revenue correlation</div>
         <div class="value">r = 0.93</div>
-        <div class="sub">r = 0.18 on the 118 non&#8209;promo days</div>
+        <div class="sub" data-ko="비프로모션 118일 기준 r = 0.18">r = 0.18 on the 118 non&#8209;promo days</div>
       </div>
       <div class="stat-chip">
-        <div class="label">Peak day</div>
-        <div class="value">Jun 23 &middot; Prime Day</div>
-        <div class="sub">$27,487 revenue &middot; 2,171 units (real)</div>
+        <div class="label" data-ko="최고 매출일">Peak day</div>
+        <div class="value" data-ko="6월 23일 &middot; 프라임 데이">Jun 23 &middot; Prime Day</div>
+        <div class="sub" data-ko="매출 $27,487 &middot; 2,171 유닛 (실측)">$27,487 revenue &middot; 2,171 units (real)</div>
       </div>
       <div class="stat-chip">
-        <div class="label">Window totals</div>
+        <div class="label" data-ko="전체 기간 합계">Window totals</div>
         <div class="value">$589,053</div>
-        <div class="sub">35,741 units &middot; 368,177 page views</div>
+        <div class="sub" data-ko="35,741 유닛 &middot; 368,177 페이지 뷰">35,741 units &middot; 368,177 page views</div>
       </div>
     </div>
 
     <div class="chart-block">
-      <h2>Daily page views vs. revenue, indexed to day 1</h2>
-      <p class="chart-sub">Mar 22, 2026 = 100 for both series (real Seller Central data, all 158 days) &middot; shaded bands = active promotions &middot; dots at 7&#8209;day intervals for readability, hover any dot for the exact day</p>
+      <h2 data-ko="일별 페이지 뷰 vs. 매출 (1일차 기준 지수화)">Daily page views vs. revenue, indexed to day 1</h2>
+      <p class="chart-sub" data-ko="2026년 3월 22일 = 100 (두 지표 모두, 실제 셀러 센트럴 데이터, 전체 158일) &middot; 음영 구간 = 진행 중인 프로모션 &middot; 가독성을 위해 7일 간격으로 점 표시, 각 점에 마우스를 올리면 해당 날짜 확인 가능">Mar 22, 2026 = 100 for both series (real Seller Central data, all 158 days) &middot; shaded bands = active promotions &middot; dots at 7&#8209;day intervals for readability, hover any dot for the exact day</p>
       <div class="chart-legend">
-        <span class="swatch"><span class="line views"></span> Page views</span>
-        <span class="swatch"><span class="line units"></span> Revenue</span>
+        <span class="swatch"><span class="line views"></span> <span data-ko="페이지 뷰">Page views</span></span>
+        <span class="swatch"><span class="line units"></span> <span data-ko="매출">Revenue</span></span>
       </div>
       <div class="chart-svg-wrap">
         <svg viewBox="0 0 860 244" role="img" aria-label="Line chart of daily page views and revenue, indexed to day 1, Mar 22 to Aug 26 2026, real Seller Central data">
@@ -540,13 +556,13 @@
     </div>
 
     <div class="chart-block">
-      <h2>Daily revenue vs. confirmed Niacinamide 20 USA influencer uploads</h2>
-      <p class="chart-sub">All 158 days (Mar 22&ndash;Aug 26), real Seller Central revenue &middot; accent bubble = KILL-GO-tracked post, sized by eventual total views &middot; gray dot = untracked gifted/paid post(s), sized by count that day (upload dates verified against Instagram/TikTok via Apify) &middot; hover any marker for detail</p>
+      <h2 data-ko="일별 매출 vs. 확인된 나이아신아마이드 20 미국 인플루언서 업로드">Daily revenue vs. confirmed Niacinamide 20 USA influencer uploads</h2>
+      <p class="chart-sub" data-ko="전체 158일 (3/22&ndash;8/26), 실제 셀러 센트럴 매출 &middot; 강조색 원 = KILL-GO로 추적된 게시물, 누적 조회수에 비례한 크기 &middot; 회색 점 = 추적되지 않은 협찬/유료 게시물, 해당 일자 게시 건수에 비례한 크기 (업로드 날짜는 Apify로 Instagram/TikTok 실제 게시일 검증) &middot; 각 마커에 마우스를 올리면 상세 정보 확인 가능">All 158 days (Mar 22&ndash;Aug 26), real Seller Central revenue &middot; accent bubble = KILL-GO-tracked post, sized by eventual total views &middot; gray dot = untracked gifted/paid post(s), sized by count that day (upload dates verified against Instagram/TikTok via Apify) &middot; hover any marker for detail</p>
       <div class="chart-legend">
-        <span class="swatch"><span class="line units" style="background:var(--accent);width:8px;height:8px;border-radius:50%;"></span> Tracked post, sized by views</span>
-        <span class="swatch"><span class="line units" style="background:var(--ink-muted);opacity:0.4;width:8px;height:8px;border-radius:50%;"></span> Untracked post(s), sized by count</span>
-        <span class="swatch"><span class="line units"></span> Daily revenue</span>
-        <span class="swatch"><span class="dot promo" style="width:10px;height:10px;"></span> Promotion active</span>
+        <span class="swatch"><span class="line units" style="background:var(--accent);width:8px;height:8px;border-radius:50%;"></span> <span data-ko="추적된 게시물, 조회수에 비례">Tracked post, sized by views</span></span>
+        <span class="swatch"><span class="line units" style="background:var(--ink-muted);opacity:0.4;width:8px;height:8px;border-radius:50%;"></span> <span data-ko="추적 안 된 게시물, 건수에 비례">Untracked post(s), sized by count</span></span>
+        <span class="swatch"><span class="line units"></span> <span data-ko="일별 매출">Daily revenue</span></span>
+        <span class="swatch"><span class="dot promo" style="width:10px;height:10px;"></span> <span data-ko="프로모션 진행 중">Promotion active</span></span>
       </div>
       <div class="chart-svg-wrap">
         <svg viewBox="0 0 860 232" role="img" aria-label="Daily revenue, Mar 22 to Aug 26 2026, with markers for every confirmed Niacinamide 20 USA influencer upload, sized by eventual view count">
@@ -652,7 +668,7 @@
           </g>
         </svg>
       </div>
-      <p class="chart-sub" style="margin-top:2px;">
+      <p class="chart-sub" style="margin-top:2px;" data-ko="RAW DATA 트래커에는 원래 이 게시물 중 349건이 실제 날짜 대신 두 개의 임시 배치 날짜(5/11, 5/26)로 기록되어 있었습니다 &mdash; 2026년 8월 28일, Apify를 통해 각 게시물의 실제 Instagram/TikTok 게시 시각을 확인하여 바로잡았고, 그 결과 대부분 4/25&ndash;5/25에 걸쳐 순차적으로 진행된 &quot;US_Picky_Mar&quot; 협찬 게시 캠페인이 드러났습니다(정점: 5/10 53건). 이 게시물들은 KILL-GO에서 거의 추적되지 않았습니다. Best Deal 프로모션(5/1&ndash;5/14)의 막바지와 겹치지만, 해당 프로모션을 넘어서는 별다른 매출 신호는 보이지 않습니다. 누적 조회수 기준 가장 큰 추적 게시물: @rw2100(134,475, 7/8), @lifeofshauni(77,600, 7/3) &mdash; 둘 다 평범한 매출일에 게시됨($2,015&ndash;2,560). 참여율과 실제 매출이 함께 겹친 최고 사례: @_leaveitblankk(8/14, 42,100 뷰, 참여율 10.63%, 해당일 매출 $8,455, Aug Best Deal 기간 내). 8/27&ndash;28(Elio의 게시물)은 아직 셀러 센트럴에 반영되지 않음 &mdash; 상단 요약 참고.">
         The RAW DATA tracker originally logged 349 of these posts under two placeholder batch
         dates (5/11 and 5/26) instead of real dates &mdash; corrected 2026-08-28 by checking each
         post's actual Instagram/TikTok timestamp via Apify, revealing a staggered "US_Picky_Mar"
@@ -667,21 +683,21 @@
     </div>
 
     <div class="legend">
-      <span class="swatch"><span class="dot promo"></span> Promotion active that week</span>
-      <span class="swatch"><span class="dot up"></span> Up vs. prior week</span>
-      <span class="swatch"><span class="dot down"></span> Down vs. prior week</span>
+      <span class="swatch"><span class="dot promo"></span> <span data-ko="해당 주 프로모션 진행 중">Promotion active that week</span></span>
+      <span class="swatch"><span class="dot up"></span> <span data-ko="전주 대비 상승">Up vs. prior week</span></span>
+      <span class="swatch"><span class="dot down"></span> <span data-ko="전주 대비 하락">Down vs. prior week</span></span>
     </div>
 
-    <p class="chart-sub" style="margin:0 0 4px;">All 158 days, Mar 22&ndash;Aug 26, 2026 &middot; % is vs. the prior day &middot; scrolls &mdash; 158 rows</p>
+    <p class="chart-sub" style="margin:0 0 4px;" data-ko="전체 158일, 2026년 3월 22일&ndash;8월 26일 &middot; %는 전일 대비 &middot; 스크롤 가능 &mdash; 총 158행">All 158 days, Mar 22&ndash;Aug 26, 2026 &middot; % is vs. the prior day &middot; scrolls &mdash; 158 rows</p>
     <div class="table-wrap" style="max-height:420px; overflow-y:auto;">
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th class="num">Page views</th>
-            <th class="num">Units</th>
-            <th class="num">Revenue (real)</th>
-            <th>Promotion status</th>
+            <th data-ko="날짜">Date</th>
+            <th class="num" data-ko="페이지 뷰">Page views</th>
+            <th class="num" data-ko="유닛">Units</th>
+            <th class="num" data-ko="매출 (실측)">Revenue (real)</th>
+            <th data-ko="프로모션 상태">Promotion status</th>
           </tr>
         </thead>
         <tbody>
@@ -711,49 +727,49 @@
             <td class="num">4,079<span class="pct up">+146.0%</span></td>
             <td class="num">478</td>
             <td class="num">$8,014</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-03-26</td>
             <td class="num">3,314<span class="pct down">&minus;18.8%</span></td>
             <td class="num">359</td>
             <td class="num">$6,031</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-03-27</td>
             <td class="num">3,467<span class="pct up">+4.6%</span></td>
             <td class="num">364</td>
             <td class="num">$6,115</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-03-28</td>
             <td class="num">3,344<span class="pct down">&minus;3.5%</span></td>
             <td class="num">354</td>
             <td class="num">$5,950</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-03-29</td>
             <td class="num">3,467<span class="pct up">+3.7%</span></td>
             <td class="num">355</td>
             <td class="num">$5,917</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-03-30</td>
             <td class="num">4,184<span class="pct up">+20.7%</span></td>
             <td class="num">339</td>
             <td class="num">$5,678</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-03-31</td>
             <td class="num">4,318<span class="pct up">+3.2%</span></td>
             <td class="num">497</td>
             <td class="num">$8,350</td>
-            <td><span class="promo-badge">&#128226; Big Spring Sale</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 빅 스프링 세일">&#128226; Big Spring Sale</span></td>
           </tr>
           <tr>
             <td class="date">2026-04-01</td>
@@ -970,98 +986,98 @@
             <td class="num">2,692<span class="pct up">+116.1%</span></td>
             <td class="num">366</td>
             <td class="num">$5,385</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-02</td>
             <td class="num">2,516<span class="pct down">&minus;6.5%</span></td>
             <td class="num">271</td>
             <td class="num">$3,954</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-03</td>
             <td class="num">2,711<span class="pct up">+7.8%</span></td>
             <td class="num">312</td>
             <td class="num">$4,572</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-04</td>
             <td class="num">2,603<span class="pct down">&minus;4.0%</span></td>
             <td class="num">271</td>
             <td class="num">$3,969</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-05</td>
             <td class="num">2,678<span class="pct up">+2.9%</span></td>
             <td class="num">280</td>
             <td class="num">$4,116</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-06</td>
             <td class="num">2,677<span class="pct down">&minus;0.0%</span></td>
             <td class="num">284</td>
             <td class="num">$4,175</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-07</td>
             <td class="num">2,560<span class="pct down">&minus;4.4%</span></td>
             <td class="num">273</td>
             <td class="num">$3,998</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-08</td>
             <td class="num">2,589<span class="pct up">+1.1%</span></td>
             <td class="num">296</td>
             <td class="num">$4,322</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-09</td>
             <td class="num">2,785<span class="pct up">+7.6%</span></td>
             <td class="num">253</td>
             <td class="num">$3,704</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-10</td>
             <td class="num">2,841<span class="pct up">+2.0%</span></td>
             <td class="num">335</td>
             <td class="num">$4,924</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-11</td>
             <td class="num">3,797<span class="pct up">+33.7%</span></td>
             <td class="num">292</td>
             <td class="num">$4,278</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-12</td>
             <td class="num">3,951<span class="pct up">+4.1%</span></td>
             <td class="num">289</td>
             <td class="num">$4,239</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-13</td>
             <td class="num">3,847<span class="pct down">&minus;2.6%</span></td>
             <td class="num">311</td>
             <td class="num">$4,542</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-05-14</td>
             <td class="num">5,178<span class="pct up">+34.6%</span></td>
             <td class="num">397</td>
             <td class="num">$5,806</td>
-            <td><span class="promo-badge">&#128226; Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 베스트 딜">&#128226; Best Deal</span></td>
           </tr>
           <tr>
             <td class="date">2026-05-15</td>
@@ -1341,35 +1357,35 @@
             <td class="num">16,037<span class="pct up">+638.7%</span></td>
             <td class="num">2,171</td>
             <td class="num">$27,487</td>
-            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 프라임 데이">&#128226; Prime Day</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-06-24</td>
             <td class="num">9,084<span class="pct down">&minus;43.4%</span></td>
             <td class="num">1,415</td>
             <td class="num">$17,824</td>
-            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 프라임 데이">&#128226; Prime Day</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-06-25</td>
             <td class="num">7,919<span class="pct down">&minus;12.8%</span></td>
             <td class="num">1,208</td>
             <td class="num">$15,242</td>
-            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 프라임 데이">&#128226; Prime Day</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-06-26</td>
             <td class="num">8,668<span class="pct up">+9.5%</span></td>
             <td class="num">1,816</td>
             <td class="num">$22,882</td>
-            <td><span class="promo-badge">&#128226; Prime Day</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 프라임 데이">&#128226; Prime Day</span></td>
           </tr>
           <tr>
             <td class="date">2026-06-27</td>
             <td class="num">1,858<span class="pct down">&minus;78.6%</span></td>
             <td class="num">139</td>
             <td class="num">$2,795</td>
-            <td><span class="no-promo">post&#8209;Prime Day pullback</span></td>
+            <td><span class="no-promo" data-ko="프라임 데이 이후 하락">post&#8209;Prime Day pullback</span></td>
           </tr>
           <tr>
             <td class="date">2026-06-28</td>
@@ -1614,105 +1630,105 @@
             <td class="num">4,865<span class="pct up">+355.5%</span></td>
             <td class="num">602</td>
             <td class="num">$7,573</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-02</td>
             <td class="num">4,706<span class="pct down">&minus;3.3%</span></td>
             <td class="num">578</td>
             <td class="num">$7,270</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-03</td>
             <td class="num">3,775<span class="pct down">&minus;19.8%</span></td>
             <td class="num">411</td>
             <td class="num">$5,179</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-04</td>
             <td class="num">3,381<span class="pct down">&minus;10.4%</span></td>
             <td class="num">431</td>
             <td class="num">$5,405</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-05</td>
             <td class="num">3,697<span class="pct up">+9.3%</span></td>
             <td class="num">427</td>
             <td class="num">$5,380</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-06</td>
             <td class="num">3,764<span class="pct up">+1.8%</span></td>
             <td class="num">410</td>
             <td class="num">$5,166</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-07</td>
             <td class="num">3,887<span class="pct up">+3.3%</span></td>
             <td class="num">425</td>
             <td class="num">$5,330</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-08</td>
             <td class="num">3,797<span class="pct down">&minus;2.3%</span></td>
             <td class="num">401</td>
             <td class="num">$5,053</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-09</td>
             <td class="num">4,936<span class="pct up">+30.0%</span></td>
             <td class="num">649</td>
             <td class="num">$8,152</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-10</td>
             <td class="num">4,980<span class="pct up">+0.9%</span></td>
             <td class="num">628</td>
             <td class="num">$7,900</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-11</td>
             <td class="num">4,196<span class="pct down">&minus;15.7%</span></td>
             <td class="num">502</td>
             <td class="num">$6,313</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-12</td>
             <td class="num">5,150<span class="pct up">+22.7%</span></td>
             <td class="num">533</td>
             <td class="num">$6,716</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-13</td>
             <td class="num">4,541<span class="pct down">&minus;11.8%</span></td>
             <td class="num">525</td>
             <td class="num">$6,577</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-14</td>
             <td class="num">4,828<span class="pct up">+6.3%</span></td>
             <td class="num">672</td>
             <td class="num">$8,455</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr class="promo-row">
             <td class="date">2026-08-15</td>
             <td class="num">2,645<span class="pct down">&minus;45.2%</span></td>
             <td class="num">194</td>
             <td class="num">$3,495</td>
-            <td><span class="promo-badge">&#128226; Aug Best Deal</span></td>
+            <td><span class="promo-badge" data-ko="&#128226; 8월 베스트 딜">&#128226; Aug Best Deal</span></td>
           </tr>
           <tr>
             <td class="date">2026-08-16</td>
@@ -1796,18 +1812,18 @@
     </div>
 
     <div class="chart-block">
-      <h2>Sales upticks that followed a specific post</h2>
-      <p class="chart-sub">US + Niacinamide 20 posts only &middot; non-promo days &middot; real revenue on the post's day or the day after vs. the day before &middot; daily revenue naturally varies, so treat as candidates, not proof &middot; handles link to the actual post (RAW DATA tracker)</p>
+      <h2 data-ko="특정 게시물 이후 발생한 매출 상승">Sales upticks that followed a specific post</h2>
+      <p class="chart-sub" data-ko="미국 + 나이아신아마이드 20 게시물만 대상 &middot; 비프로모션일 &middot; 게시 당일 또는 다음날 실제 매출을 전날과 비교 &middot; 일별 매출은 원래 변동이 크므로 증거가 아닌 후보로만 참고 &middot; 핸들을 클릭하면 실제 게시물로 이동(RAW DATA 트래커)">US + Niacinamide 20 posts only &middot; non-promo days &middot; real revenue on the post's day or the day after vs. the day before &middot; daily revenue naturally varies, so treat as candidates, not proof &middot; handles link to the actual post (RAW DATA tracker)</p>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Post(s)</th>
-              <th class="num">Day before</th>
-              <th class="num">Peak day</th>
-              <th class="num">Lift</th>
-              <th>Performance (if tracked)</th>
+              <th data-ko="날짜">Date</th>
+              <th data-ko="게시물">Post(s)</th>
+              <th class="num" data-ko="전날">Day before</th>
+              <th class="num" data-ko="정점일">Peak day</th>
+              <th class="num" data-ko="상승폭">Lift</th>
+              <th data-ko="성과 (추적된 경우)">Performance (if tracked)</th>
             </tr>
           </thead>
           <tbody>
@@ -1815,70 +1831,70 @@
               <td class="date">2026-04-29</td>
               <td class="content-cell"><a href="https://www.instagram.com/p/DXuIUA5jbF3/" target="_blank" rel="noopener">@claudiaashao</a></td>
               <td class="num">$2,364</td>
-              <td class="num">$3,105 <span class="no-promo">(same day)</span></td>
+              <td class="num">$3,105 <span class="no-promo" data-ko="(당일)">(same day)</span></td>
               <td class="num pct up">+31%</td>
-              <td class="content-cell"><span class="empty">not tracked</span></td>
+              <td class="content-cell"><span class="empty" data-ko="추적 안 됨">not tracked</span></td>
             </tr>
             <tr>
               <td class="date">2026-07-23</td>
               <td class="content-cell"><a href="https://www.instagram.com/p/DbGYYD-hbdo/" target="_blank" rel="noopener">@glowopedia</a></td>
               <td class="num">$2,120</td>
-              <td class="num">$2,688 <span class="no-promo">(same day)</span></td>
+              <td class="num">$2,688 <span class="no-promo" data-ko="(당일)">(same day)</span></td>
               <td class="num pct up">+27%</td>
-              <td class="content-cell">killed 8/8 &mdash; ER 0.47%, flat views</td>
+              <td class="content-cell" data-ko="8/8 종료 &mdash; 참여율 0.47%, 조회수 저조">killed 8/8 &mdash; ER 0.47%, flat views</td>
             </tr>
             <tr>
               <td class="date">2026-07-02</td>
               <td class="content-cell"><a href="https://www.tiktok.com/@abigailcanfieldd/video/7657982534038375694" target="_blank" rel="noopener">@abigailcanfieldd</a> +2 others</td>
               <td class="num">$1,699</td>
-              <td class="num">$2,116 <span class="no-promo">(same day)</span></td>
+              <td class="num">$2,116 <span class="no-promo" data-ko="(당일)">(same day)</span></td>
               <td class="num pct up">+25%</td>
-              <td class="content-cell">@abigailcanfieldd: 13,100 views, 5.56% ER</td>
+              <td class="content-cell" data-ko="@abigailcanfieldd: 13,100 뷰, 참여율 5.56%">@abigailcanfieldd: 13,100 views, 5.56% ER</td>
             </tr>
             <tr>
               <td class="date">2026-07-08</td>
               <td class="content-cell"><a href="https://www.instagram.com/reel/DagcNujJK37/" target="_blank" rel="noopener">@rw2100</a>, <a href="https://www.instagram.com/p/DagDpfxOQuq/" target="_blank" rel="noopener">@taylorbosmann</a>, <a href="https://www.tiktok.com/@tseringla5/video/7660165337505107221" target="_blank" rel="noopener">@tseringla5</a></td>
               <td class="num">$2,121</td>
-              <td class="num">$2,560 <span class="no-promo">(same day)</span></td>
+              <td class="num">$2,560 <span class="no-promo" data-ko="(당일)">(same day)</span></td>
               <td class="num pct up">+21%</td>
-              <td class="content-cell">@rw2100: 134,475 views, 3.92% ER</td>
+              <td class="content-cell" data-ko="@rw2100: 134,475 뷰, 참여율 3.92%">@rw2100: 134,475 views, 3.92% ER</td>
             </tr>
             <tr>
               <td class="date">2026-05-28</td>
               <td class="content-cell"><a href="https://www.instagram.com/p/DY5kKrbhkWw/" target="_blank" rel="noopener">@hudsonsqrd</a></td>
               <td class="num">$2,413</td>
-              <td class="num">$2,896 <span class="no-promo">(next day)</span></td>
+              <td class="num">$2,896 <span class="no-promo" data-ko="(다음날)">(next day)</span></td>
               <td class="num pct up">+20%</td>
-              <td class="content-cell">killed &mdash; ER 1.98%</td>
+              <td class="content-cell" data-ko="종료됨 &mdash; 참여율 1.98%">killed &mdash; ER 1.98%</td>
             </tr>
             <tr>
               <td class="date">2026-07-13</td>
               <td class="content-cell"><a href="https://www.instagram.com/p/DavGN3iMlax/" target="_blank" rel="noopener">@blueyoobin</a></td>
               <td class="num">$2,707</td>
-              <td class="num">$3,128 <span class="no-promo">(next day)</span></td>
+              <td class="num">$3,128 <span class="no-promo" data-ko="(다음날)">(next day)</span></td>
               <td class="num pct up">+16%</td>
-              <td class="content-cell"><span class="empty">not tracked</span></td>
+              <td class="content-cell"><span class="empty" data-ko="추적 안 됨">not tracked</span></td>
             </tr>
             <tr>
               <td class="date">2026-05-27</td>
               <td class="content-cell"><a href="https://www.instagram.com/p/DY2EiRgugG3/" target="_blank" rel="noopener">@brute.choi</a></td>
               <td class="num">$2,246</td>
-              <td class="num">$2,455 <span class="no-promo">(next day)</span></td>
+              <td class="num">$2,455 <span class="no-promo" data-ko="(다음날)">(next day)</span></td>
               <td class="num pct up">+9%</td>
-              <td class="content-cell">killed &mdash; ER 2.95%</td>
+              <td class="content-cell" data-ko="종료됨 &mdash; 참여율 2.95%">killed &mdash; ER 2.95%</td>
             </tr>
             <tr>
               <td class="date">2026-05-19</td>
               <td class="content-cell"><a href="https://www.tiktok.com/@brutechoi/video/7641606293165264141" target="_blank" rel="noopener">@brutechoi</a>, <a href="https://www.tiktok.com/@hannah.oh.kr/video/7641700013248122142" target="_blank" rel="noopener">@hannah.oh.kr</a> +1</td>
               <td class="num">$2,663</td>
-              <td class="num">$2,828 <span class="no-promo">(next day)</span></td>
+              <td class="num">$2,828 <span class="no-promo" data-ko="(다음날)">(next day)</span></td>
               <td class="num pct up">+6%</td>
-              <td class="content-cell"><span class="empty">not tracked</span></td>
+              <td class="content-cell"><span class="empty" data-ko="추적 안 됨">not tracked</span></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p class="chart-sub" style="margin-top:6px;">
+      <p class="chart-sub" style="margin-top:6px;" data-ko="이 중 실제 매출 상승과 준수한 추적 참여율을 모두 보인 경우는 단 둘뿐입니다: @abigailcanfieldd(7/2)와, 그보다 약하게 @glowopedia(7/23) &mdash; 다만 glowopedia의 영상은 이후 KILL-GO에서 저조한 성과(참여율 0.47%)로 종료 처리되어, 이는 우연의 일치로 보입니다. 나머지는 추적된 성과가 없거나, 당일 매출 상승에도 불구하고 저조한 게시물로 분류되었습니다 &mdash; 당일 우연의 일치만으로는 근거가 약하다는 점을 다시 한번 보여줍니다.">
         Only two of these have both a real revenue bump AND decent tracked engagement:
         @abigailcanfieldd (7/2) and, more weakly, @glowopedia (7/23) &mdash; except glowopedia's
         video was later killed by KILL-GO for weak performance (0.47% ER), so that one reads as
@@ -1889,37 +1905,37 @@
     </div>
 
     <div class="insights">
-      <h2>Key insights</h2>
+      <h2 data-ko="핵심 인사이트">Key insights</h2>
       <ul>
-        <li><strong>At daily resolution, the views&harr;revenue correlation is almost entirely a
+        <li data-ko="<strong>일별 단위에서 페이지 뷰&harr;매출 상관관계는 거의 전적으로 프로모션 기간 효과입니다.</strong> 전체 158일 기준 r&nbsp;=&nbsp;0.93 &mdash; 하지만 프로모션이 없는 118일만 보면 r&nbsp;=&nbsp;0.18로 떨어집니다. 평상시 페이지 뷰의 일별 변동은 그날의 매출을 안정적으로 예측하지 못합니다. 전체 상관계수가 높게 나오는 이유는 짧고 강력한 4개의 프로모션 구간 때문이지, 꾸준한 일별 관계 때문이 아닙니다. (프라임 데이와 8월 베스트 딜만 제외하고 규모가 작은 빅 스프링 세일/베스트 딜은 포함할 경우 r&nbsp;=&nbsp;0.74 &mdash; 이 역시 대부분 프로모션 효과입니다.)"><strong>At daily resolution, the views&harr;revenue correlation is almost entirely a
         promo-day effect.</strong> Across all 158 days, r&nbsp;=&nbsp;0.93 &mdash; but on the 118
         days with no promotion running, that drops to r&nbsp;=&nbsp;0.18. Day-to-day, ordinary
         page-view swings don't reliably forecast that day's revenue; the strong overall number is
         being driven by four short, huge promo windows, not a steady daily relationship. (Dropping
         only Prime Day + the Aug Best Deal, and keeping the smaller Big Spring Sale / Best Deal
         promos in, gives r&nbsp;=&nbsp;0.74 &mdash; still mostly a promo story.)</li>
-        <li><strong>Prime Day remains the single biggest revenue event of the period.</strong> Jun
+        <li data-ko="<strong>프라임 데이는 여전히 이 기간 최대의 단일 매출 이벤트입니다.</strong> 6월 23일 하루 만에 실제 매출 $27,487을 기록했으며(전일 대비 페이지 뷰 +539%, 매출 +914%), 그날 확인된 콘텐츠 업로드는 없었고, 4일 후 매출은 &minus;79% 급락했습니다 &mdash; 전형적인 프로모션 급등&middot;반락 패턴이며, 콘텐츠 효과가 아닙니다."><strong>Prime Day remains the single biggest revenue event of the period.</strong> Jun
         23 hit $27,487 in real revenue in one day (+539% page views, +914% revenue vs. the day
         before) with no confirmed content upload that day, then fell back &minus;79% four days
         later &mdash; a textbook promo spike-and-reversion, not a content effect.</li>
-        <li><strong>The clearest content/promo overlap is Aug 14.</strong> @_leaveitblankk's post
+        <li data-ko="<strong>콘텐츠와 프로모션이 가장 명확히 겹치는 날은 8월 14일입니다.</strong> @_leaveitblankk의 게시물(4만 2,100뷰, 참여율 10.63% &mdash; 추적된 미국 게시물 중 최고 참여율)이 게시된 날 실제 매출은 $8,455였습니다(비프로모션일 평균인 약 $2,500를 훨씬 상회). 하지만 같은 날 8월 베스트 딜(40% 할인)이 진행 중이었기 때문에, 이 상승분을 게시물만의 효과로 명확히 귀속시킬 수는 없습니다."><strong>The clearest content/promo overlap is Aug 14.</strong> @_leaveitblankk's post
         (42,100 views, 10.63% ER &mdash; the best engagement of any tracked USA post) landed on a day
         with $8,455 in real revenue (well above the ~$2,500 non-promo daily baseline) &mdash; but
         the Aug Best Deal (40% off) was active that same day, so the lift can&rsquo;t be cleanly
         credited to the post alone.</li>
-        <li><strong>Raw view count doesn&rsquo;t predict a revenue bump &mdash; engagement rate and
+        <li data-ko="<strong>단순 조회수는 매출 상승을 예측하지 못합니다 &mdash; 참여율과 타이밍이 중요합니다.</strong> @rw2100(13만 4,475뷰)과 @lifeofshauni(7만 7,600뷰) 모두 평범한 비프로모션 매출일에 게시되었습니다($2,015&ndash;2,560, 약 $2,500 기준선과 비슷한 수준). 유기적 상승 효과에 대한 가장 확실한 실제 증거는 @abigailcanfieldd의 7/2 게시물입니다(1만 3,100뷰, 참여율 5.56%, 당일 매출 +25%) &mdash; 도달수와 참여율이 함께 준수했고, 비프로모션일에 발생했습니다."><strong>Raw view count doesn&rsquo;t predict a revenue bump &mdash; engagement rate and
         timing do.</strong> @rw2100 (134,475 views) and @lifeofshauni (77,600 views) both landed on
         ordinary, non-promo revenue days ($2,015&ndash;2,560, in line with the ~$2,500 baseline).
         The best real evidence of an organic lift is @abigailcanfieldd's 7/2 post (13,100 views,
         5.56% ER, revenue +25% same-day) &mdash; decent reach and decent engagement, together, on a
         non-promo day.</li>
-        <li><strong>Elio's 8/27 post still can&rsquo;t be verified.</strong> Seller Central's own
+        <li data-ko="<strong>Elio의 8/27 게시물은 여전히 검증할 수 없습니다.</strong> 셀러 센트럴 자체 데이터는 1&ndash;2일 지연되며, 이 보고서 작성 당일에도 8/27&ndash;28 데이터를 다시 확인했지만 여전히 비어 있습니다(가장 최근 확인된 날짜는 8/26으로, 매출 $2,398 &mdash; 최근 하락 추세와 일치하며 특이사항 없음). Slack에서 확인한 실시간 그래프의 급등은 이 일별 보고서보다 훨씬 실시간에 가깝고 정밀합니다; 8/27&ndash;28 데이터가 반영되면 이전 며칠과 비교해 상승폭을 확인할 수 있습니다."><strong>Elio's 8/27 post still can&rsquo;t be verified.</strong> Seller Central's own
         reporting lags 1&ndash;2 days; 8/27&ndash;28 were checked again the same day as this report
         and are still blank (8/26 is the latest confirmed day: $2,398 revenue, in line with the
         recent declining trend, no anomaly). The live jump you saw in the Seller Central dashboard
         is real-time and more precise than this daily report will ever show; once 8/27&ndash;28
         data lands here, it can be added to confirm the size of the bump against the days before.</li>
-        <li><strong>A tracker data-quality fix surfaced 349 previously-hidden real posts.</strong>
+        <li data-ko="<strong>트래커 데이터 품질 수정으로 이전에 숨겨져 있던 실제 게시물 349건이 드러났습니다.</strong> 406개 행이 실제 날짜 대신 두 개의 임시 배치 날짜로 기록되어 있었습니다; Apify로 각 게시물의 실제 Instagram/TikTok 게시 시각을 확인하고 시트를 수정한 결과, 순차적으로 진행된 &quot;Picky&quot; 캠페인이 드러났습니다 &mdash; 협찬 방식의 3월 코호트(US_Picky_Mar, 293건)와 유료 방식의 4월 코호트(US_Picky_Apr, 109건, 5/10의 53건 정점 포함) &mdash; 대부분 4/25&ndash;5/25에 집중되어 있으며, 이는 기존 보고서에서 34건으로 과소 집계되어 있던 부분입니다. 실제 물량이 훨씬 많음에도 불구하고, 이 캠페인은 일부 겹치는 베스트 딜 프로모션을 넘어서는 별다른 매출 신호를 보이지 않습니다 &mdash; 인사이트 #4를 다시 한번 뒷받침합니다: 게시물 물량 자체는 매출을 움직이지 못합니다."><strong>A tracker data-quality fix surfaced 349 previously-hidden real posts.</strong>
         406 rows were logged under two placeholder batch dates instead of real ones; checking each
         post's actual Instagram/TikTok timestamp via Apify and correcting the sheet revealed a
         staggered "Picky" rollout &mdash; a Gifted March cohort (US_Picky_Mar, 293 posts) and a Paid
@@ -1928,7 +1944,7 @@
         Despite the much larger real volume, it shows no standout revenue signal beyond the Best
         Deal promo it partly overlaps &mdash; reinforcing insight #4: raw post volume doesn't move
         revenue on its own.</li>
-        <li><strong>Excluding the Picky program entirely still shows no post&harr;revenue
+        <li data-ko="<strong>Picky 프로그램을 완전히 제외해도 게시물&harr;매출 상관관계는 나타나지 않습니다.</strong> 협찬과 유료를 합쳐 Picky 게시물 402건을 모두 제외하면 65건, 35개 날짜만 남습니다 &mdash; 진짜 개별 인플루언서 콘텐츠입니다. 비프로모션일 기준 당일 게시물 수 대비 매출 상관계수: r&nbsp;=&nbsp;&minus;0.08 (전체 기간 기준 r&nbsp;=&nbsp;&minus;0.02, 당일 대신 다음날 매출 기준 r&nbsp;=&nbsp;&minus;0.01). 게시물이 있는 비프로모션일 평균 매출은 $2,529, 없는 날은 $2,586로 &mdash; 사실상 차이가 없습니다. 유료(Paid) 게시물로만 더 좁혀도(34개 날짜, US_Picky_Apr 포함) 결과는 동일합니다(당일 기준 r&nbsp;=&nbsp;&minus;0.08). 이 정도 표본 크기에서 이런 작은 음(&minus;)의 r 값은 실제 효과가 아니라 노이즈로 해석됩니다 &mdash; 솔직한 결론은, 유료든 협찬이든 개별 인플루언서 게시물이 프로모션과 무관하게 감지 가능한 일별 매출 신호를 만들어내지는 못한다는 것입니다."><strong>Excluding the Picky program entirely still shows no post&harr;revenue
         correlation.</strong> Dropping all 402 Picky posts (Gifted and Paid alike) leaves 65 posts
         across 35 dates &mdash; the genuine one-off influencer content. Same-day post count vs.
         revenue on non-promo days: r&nbsp;=&nbsp;&minus;0.08 (r&nbsp;=&nbsp;&minus;0.02 across the
@@ -1943,7 +1959,7 @@
     </div>
   </main>
 
-  <footer class="note">
+  <footer class="note" data-ko="페이지 뷰, 유닛, 매출: Amazon Seller Central Business Reports &rsaquo; &quot;Detail Page Sales and Traffic By Child Item&quot; &rsaquo; Product Performance Spotlight, ASIN B0FM23ZR4H, 2026-08-28 다운로드, 실측 일별 데이터(추정치 아님), 전체 158일 구간 2026년 3월 22일&ndash;8월 26일 공백 없음. 8/27&ndash;28은 이번 업데이트 시점까지 Amazon에 아직 반영되지 않음을 확인함(셀러 센트럴 자체의 1&ndash;2일 지연). 프로모션: JUMISO Marketing Dashboard / Notion 프로모션 캘린더, Amazon US, 2026-08-28 확인. 인플루언서 업로드: RAW DATA 트래커, Region = USA 및 Products에 &quot;Niacinamide 20 Serum&quot;이 포함된 경우만 (2026-08-28 기준 업로드 날짜 수정 이후 창 내 56개 날짜에 걸친 467건 &mdash; 아래 참고), KILL-GO Ad Boosting Machine의 Hold Review + Kill Archive 탭과 대조하여 실제 총 조회수/참여율 확인(16건 추적됨; 조회수는 각 게시물의 마지막 KILL-GO 확인 시점 누적치이며 당일 조회수가 아님; KILL-GO 추적은 5월 중순 이후 데이터만 있어 3월&ndash;5월 초는 업로드 날짜만 있고 추적된 성과는 없음). 업로드 날짜 수정(2026-08-28): 406개 행이 원래 &quot;US_Picky_Mar&quot; 협찬 캠페인의 두 임시 배치 날짜(2026-05-11, 2026-05-26)로 기록되어 있었음; 각 게시물의 실제 날짜를 Apify(apify~instagram-scraper, clockworks~tiktok-scraper)로 실제 Instagram/TikTok 게시 시각과 대조하여 확인하고 RAW DATA 시트에서 직접 수정함 &mdash; 383개 행이 배치 날짜와 다른 실제 날짜를 가지고 있었음(현재 4/25&ndash;5/25), 3개는 이미 올바른 상태였고, 20개는 확인 불가(비공개/삭제된 게시물)로 수정하지 않음. 상관계수(피어슨 r)는 전체 구간과 프로모션이 없는 구간의 일별 페이지 뷰/매출 시계열을 대상으로 계산함.">
     Page views, units, and revenue: Amazon Seller Central Business Reports &rsaquo;
     "Detail Page Sales and Traffic By Child Item" &rsaquo; Product Performance Spotlight, ASIN
     B0FM23ZR4H, downloaded 2026-08-28, real daily data (not an estimate), full 158&#8209;day
@@ -1966,3 +1982,34 @@
     subset of days with no active promotion.
   </footer>
 </div>
+
+<script>
+  (function () {
+    function initI18n() {
+      document.querySelectorAll('[data-ko]').forEach(function (el) {
+        if (!el.dataset.en) el.dataset.en = el.innerHTML;
+      });
+      var saved = null;
+      try { saved = localStorage.getItem('reportLang'); } catch (e) {}
+      if (saved === 'ko') setLang('ko');
+    }
+    function setLang(lang) {
+      document.querySelectorAll('[data-ko]').forEach(function (el) {
+        el.innerHTML = lang === 'ko' ? el.dataset.ko : el.dataset.en;
+      });
+      document.documentElement.lang = lang === 'ko' ? 'ko' : 'en';
+      try { localStorage.setItem('reportLang', lang); } catch (e) {}
+      var btn = document.getElementById('lang-toggle');
+      if (btn) btn.textContent = lang === 'ko' ? 'English' : '한국어';
+      document.body.dataset.lang = lang;
+    }
+    window.toggleLang = function () {
+      setLang(document.body.dataset.lang === 'ko' ? 'en' : 'ko');
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initI18n);
+    } else {
+      initI18n();
+    }
+  })();
+</script>
